@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://d17pcq5ft88gf"]
+
+[ext_resource type="PackedScene" uid="uid://djhesu854die4" path="res://scenes/player.tscn" id="1_5qs4a"]
+[ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://scenes/health_bar.tscn" id="1_64eur"]
+[ext_resource type="PackedScene" uid="uid://ykdvrsxeey7y" path="res://scenes/box.tscn" id="2_xpdrx"]
+[ext_resource type="PackedScene" uid="uid://bvfrlmcau0mww" path="res://scenes/enemy.tscn" id="3_bt08n"]
+
+[node name="Main" type="Node2D"]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="GUI" instance=ExtResource("1_64eur")]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 32.0
+fill_color = Color(0, 0.568565, 0.848159, 1)
+
+[node name="Player" parent="." instance=ExtResource("1_5qs4a")]
+position = Vector2(528, 336)
+
+[node name="Box5" type="Node" parent="."]
+
+[node name="Box" parent="Box5" instance=ExtResource("2_xpdrx")]
+position = Vector2(616, 224)
+
+[node name="Box2" parent="Box5" instance=ExtResource("2_xpdrx")]
+position = Vector2(424, 328)
+
+[node name="Box3" parent="Box5" instance=ExtResource("2_xpdrx")]
+position = Vector2(488, 224)
+
+[node name="Box4" parent="Box5" instance=ExtResource("2_xpdrx")]
+position = Vector2(656, 312)
+
+[node name="Enemy" type="Node" parent="."]
+
+[node name="Enemy2" parent="Enemy" instance=ExtResource("3_bt08n")]
+position = Vector2(808, 176)
+
+[node name="Enemy3" parent="Enemy" instance=ExtResource("3_bt08n")]
+position = Vector2(176, 216)
+
+[node name="Enemy4" parent="Enemy" instance=ExtResource("3_bt08n")]
+position = Vector2(472, 136)
+
+[node name="Enemy5" parent="Enemy" instance=ExtResource("3_bt08n")]
+position = Vector2(576, 512)
+
+[editable path="GUI/HealthBar"]

@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://djhesu854die4"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_kv5dj"]
+[ext_resource type="PackedScene" uid="uid://ns3y0wne0y6b" path="res://scenes/trail.tscn" id="3_378au"]
+[ext_resource type="Texture2D" uid="uid://7mqkxins1nle" path="res://assets/alien_idle.png" id="3_ih1gb"]
+[ext_resource type="Texture2D" uid="uid://c58at2c4nc21k" path="res://assets/alien_gun.png" id="4_vgn5t"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4lfo5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ih1gb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vgn5t")
+}],
+"loop": true,
+"name": &"shotgun",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbcvw"]
+size = Vector2(24, 32)
+
+[sub_resource type="Curve" id="Curve_nbqbf"]
+_data = [Vector2(0, 0.924528), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_kv5dj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -1.90735e-06)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_4lfo5")
+animation = &"shotgun"
+autoplay = "idle"
+
+[node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(12, 1.27157e-06)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_qbcvw")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="Line2D" parent="." instance=ExtResource("3_378au")]
+position = Vector2(-16, 0)
+width = 4.0
+width_curve = SubResource("Curve_nbqbf")
+default_color = Color(0.368627, 0.705882, 0.117647, 0.352941)
