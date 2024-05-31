@@ -1,4 +1,5 @@
 extends CharacterBody2D
+
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @export var bullet_scene: PackedScene
 @onready var health_bar = $Healthbar
@@ -12,19 +13,45 @@ var can_shoot = true
 var shoot_interval: float = 1.0
 var miss_chance: float = 0.6
 var max_miss_angle: float = 15.0
+var detection_range: float = 300.0
 
 func _ready():
 	health_bar.max_value = max_health
 	health_bar.value = health
 	damage_bar.max_value = max_health
 	damage_bar.value = health
+	
+	if health == max_health:
+		health_bar.visible = false
+		damage_bar.visible = false
 
 func take_damage():
+	health_bar.visible = true
+	damage_bar.visible = true
 	health -= 15
 	health_bar.value = health
 	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
 	if health <= 0:
 		queue_free()
+	else:
+		see_player()
+
+func see_player():
+	var player_node = find_player_node(get_tree().get_root())
+	if player_node != null:
+		player = player_node
+		animated_sprite_2d.play("weapon")
+
+func find_player_node(node):
+	if node.has_node("Player"):
+		return node.get_node("Player")
+	
+	for child in node.get_children():
+		var result = find_player_node(child)
+		if result != null:
+			return result
+	
+	return null
 
 func _update_damage_bar():
 	if damage_bar.value > health_bar.value:
@@ -39,11 +66,21 @@ func _on_area_2d_body_entered(body):
 
 func _process(_delta):
 	if player != null:
-		animated_sprite_2d.look_at(player.global_position)
-		if can_shoot:
-			shoot()
+		var distance_to_player = global_position.distance_to(player.global_position)
+		if distance_to_player <= detection_range:
+			animated_sprite_2d.look_at(player.global_position)
+			if can_shoot:
+				shoot()
+		else:
+			follow_player()
 	else:
 		player = null
+
+func follow_player():
+	var direction = (player.global_position - global_position).normalized()
+	velocity = direction * speed
+	move_and_slide()
+	animated_sprite_2d.look_at(player.global_position)
 
 func shoot():
 	can_shoot = false
@@ -58,4 +95,3 @@ func shoot():
 	get_parent().add_child(bullet)
 	await get_tree().create_timer(shoot_interval).timeout
 	can_shoot = true
-

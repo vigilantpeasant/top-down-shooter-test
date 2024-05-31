@@ -1,9 +1,9 @@
 extends Area2D
 
-var travelled_distance = 200
 const bullet_speed = 500
 const bullet_range = 1200
 var direction : Vector2
+var travelled_distance = 200
 
 func _ready():
 	direction = Vector2.RIGHT.rotated(rotation)

@@ -1,5 +1,4 @@
 extends Control
-
 @onready var main_menu = %Main
 @onready var settings_menu = %"Settings Menu"
 

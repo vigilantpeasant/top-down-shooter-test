@@ -1,5 +1,4 @@
 extends ProgressBar
-
 @export var fill_color: Color
 
 func _ready():
