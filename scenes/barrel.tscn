@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ykdvrsxeey7y"]
+[gd_scene load_steps=4 format=3 uid="uid://lnwpfc7vj2j0"]
 
-[ext_resource type="Texture2D" uid="uid://qiguq7xc3sc1" path="res://assets/barrel.png" id="1_prgnv"]
-[ext_resource type="Script" path="res://scripts/static_objects.gd" id="1_tmjeh"]
+[ext_resource type="Script" path="res://scripts/static_objects.gd" id="1_b6kxy"]
+[ext_resource type="Texture2D" uid="uid://qiguq7xc3sc1" path="res://assets/barrel.png" id="2_ch5js"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k4sy0"]
 size = Vector2(26.6667, 32)
 
-[node name="Box" type="StaticBody2D"]
-script = ExtResource("1_tmjeh")
+[node name="Barrel" type="StaticBody2D"]
+script = ExtResource("1_b6kxy")
 health = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -17,4 +17,4 @@ shape = SubResource("RectangleShape2D_k4sy0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
-texture = ExtResource("1_prgnv")
+texture = ExtResource("2_ch5js")

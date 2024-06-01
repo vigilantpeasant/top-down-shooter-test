@@ -1,16 +1,16 @@
 [gd_scene load_steps=9 format=3 uid="uid://bvfrlmcau0mww"]
 
-[ext_resource type="Texture2D" uid="uid://donbtu2n7pjpd" path="res://assets/basic_tdshooter_idle.png" id="1_3wgt7"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_rn1aw"]
 [ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://scenes/bullet.tscn" id="2_sdler"]
-[ext_resource type="Texture2D" uid="uid://blmnq5qlhmlg" path="res://assets/basic_tdshooter_shotgun.png" id="2_yqy67"]
+[ext_resource type="Texture2D" uid="uid://cnf5ntihuqcwv" path="res://assets/enemy_idle.png" id="3_auoxu"]
+[ext_resource type="Texture2D" uid="uid://bp56jw823vic0" path="res://assets/enemy_gun.png" id="4_ysxc1"]
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://scenes/health_bar.tscn" id="5_rju02"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xw4tw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_3wgt7")
+"texture": ExtResource("3_auoxu")
 }],
 "loop": true,
 "name": &"idle",
@@ -18,7 +18,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_yqy67")
+"texture": ExtResource("4_ysxc1")
 }],
 "loop": true,
 "name": &"weapon",
@@ -29,7 +29,7 @@ animations = [{
 size = Vector2(24, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w7gwb"]
-size = Vector2(153, 125)
+size = Vector2(232, 208)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_rn1aw")
@@ -39,7 +39,7 @@ bullet_scene = ExtResource("2_sdler")
 position = Vector2(8, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_xw4tw")
-animation = &"weapon"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
@@ -53,13 +53,14 @@ shape = SubResource("RectangleShape2D_lb1dk")
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_w7gwb")
 
 [node name="Healthbar" parent="." instance=ExtResource("5_rju02")]
 offset_left = -24.0
-offset_top = -23.0
+offset_top = -27.0
 offset_right = 24.0
-offset_bottom = -18.0
+offset_bottom = -22.0
 fill_color = Color(0.756863, 0.0705882, 0.121569, 1)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

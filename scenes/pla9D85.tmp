@@ -9,18 +9,18 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_vgn5t")
-}],
-"loop": true,
-"name": &"gun",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("3_ih1gb")
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vgn5t")
+}],
+"loop": true,
+"name": &"shotgun",
 "speed": 5.0
 }]
 
@@ -28,7 +28,7 @@ animations = [{
 size = Vector2(24, 32)
 
 [sub_resource type="Curve" id="Curve_nbqbf"]
-_data = [Vector2(0, 0.260377), 0.0, 0.0, 0, 0, Vector2(1, 0.501887), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.924528), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Player" type="CharacterBody2D"]
@@ -38,7 +38,7 @@ script = ExtResource("1_kv5dj")
 position = Vector2(8, -1.90735e-06)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_4lfo5")
-animation = &"gun"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
@@ -52,10 +52,8 @@ shape = SubResource("RectangleShape2D_qbcvw")
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Line2D" parent="." instance=ExtResource("3_378au")]
 position = Vector2(-16, 0)
-
-[node name="Line2D" parent="Marker2D" instance=ExtResource("3_378au")]
-width = 6.0
+width = 4.0
 width_curve = SubResource("Curve_nbqbf")
-default_color = Color(0.894183, 0.854187, 0.806773, 0.670588)
+default_color = Color(0.368627, 0.313726, 0.247059, 0.670588)
