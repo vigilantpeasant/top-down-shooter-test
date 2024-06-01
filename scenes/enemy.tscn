@@ -62,6 +62,8 @@ offset_right = 24.0
 offset_bottom = -18.0
 fill_color = Color(0.756863, 0.0705882, 0.121569, 1)
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 
 [editable path="Healthbar"]

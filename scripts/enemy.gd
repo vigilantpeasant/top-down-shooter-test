@@ -4,13 +4,14 @@ extends CharacterBody2D
 @export var bullet_scene: PackedScene
 @onready var health_bar = $Healthbar
 @onready var damage_bar = $Healthbar/DamageBar
+@onready var navigation_agent = $NavigationAgent2D
 
+const speed = 100
 var health = 50
 var max_health = 50
-var speed = 100
 var player: Node2D
 var can_shoot = true
-var shoot_interval: float = 1.0
+var rate_of_fire: float = 0.8
 var miss_chance: float = 0.6
 var max_miss_angle: float = 15.0
 var detection_range: float = 300.0
@@ -77,10 +78,15 @@ func _process(_delta):
 		player = null
 
 func follow_player():
-	var direction = (player.global_position - global_position).normalized()
-	velocity = direction * speed
-	move_and_slide()
-	animated_sprite_2d.look_at(player.global_position)
+	if player != null:
+		navigation_agent.set_target_position(player.global_position)
+		if navigation_agent.is_target_reached():
+			velocity = Vector2.ZERO
+		else:
+			velocity = navigation_agent.get_next_path_position() - global_position
+			velocity = velocity.normalized() * speed
+		move_and_slide()
+		animated_sprite_2d.look_at(player.global_position)
 
 func shoot():
 	can_shoot = false
@@ -93,5 +99,5 @@ func shoot():
 	bullet.position = marker_position
 	bullet.rotation = (player.global_position - marker_position).angle() + angle_offset
 	get_parent().add_child(bullet)
-	await get_tree().create_timer(shoot_interval).timeout
+	await get_tree().create_timer(rate_of_fire).timeout
 	can_shoot = true
