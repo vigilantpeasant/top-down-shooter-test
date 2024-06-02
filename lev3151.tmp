@@ -1,0 +1,124 @@
+[gd_scene load_steps=7 format=3 uid="uid://qk8sxlf0t24"]
+
+[ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="1_2vt2k"]
+[ext_resource type="Script" path="res://level_structure.gd" id="1_qd2qe"]
+[ext_resource type="Texture2D" uid="uid://dua8qp4cv43ui" path="res://assets/healthbar.png" id="2_2w4sn"]
+[ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_koyr6"]
+[ext_resource type="PackedScene" uid="uid://br4amvepv0fdt" path="res://assets/material.tscn" id="5_bis5h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sdctn"]
+font = ExtResource("3_koyr6")
+font_size = 24
+
+[node name="LevelStructure" type="Node2D"]
+script = ExtResource("1_qd2qe")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1144.0
+offset_bottom = 648.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -41.0
+offset_right = 64.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TryAgain" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_koyr6")
+theme_override_font_sizes/font_size = 24
+text = "Retry"
+
+[node name="MainMenu" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_koyr6")
+theme_override_font_sizes/font_size = 24
+text = "Exit"
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="GUI" instance=ExtResource("1_2vt2k")]
+z_index = -1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_top = -32.0
+offset_right = -308.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.00583, 0.66475)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+fill_color = Color(0.958936, 0, 0.128634, 1)
+damage_fill_color = Color(0.999982, 0.808435, 0.785002, 1)
+
+[node name="DamageBar" parent="GUI/HealthBar" index="0"]
+anchor_right = 0.992248
+offset_right = -0.0309906
+grow_vertical = 0
+scale = Vector2(1.00808, 1)
+
+[node name="TextureRect" type="TextureRect" parent="GUI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_right = 277.0
+grow_vertical = 0
+texture = ExtResource("2_2w4sn")
+
+[node name="Ammo" type="Label" parent="GUI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -31.0
+offset_right = 96.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "reloading"
+label_settings = SubResource("LabelSettings_sdctn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaterialLabel" type="Label" parent="GUI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -53.0
+offset_right = 96.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Material: 0"
+label_settings = SubResource("LabelSettings_sdctn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Material" parent="." instance=ExtResource("5_bis5h")]
+
+[connection signal="button_down" from="Control/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
+[connection signal="button_down" from="Control/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
+
+[editable path="GUI/HealthBar"]

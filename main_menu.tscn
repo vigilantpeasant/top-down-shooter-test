@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://lr3gclapgfu7"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_25erc"]
-[ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
+[ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
 
 [sub_resource type="Theme" id="Theme_8rv0e"]
 default_font = ExtResource("2_umr2p")

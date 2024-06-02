@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3bifka08mn0x"
-path="res://.godot/imported/alien_gun.png-140e29a0aea8d8ab38c9d13500a08b54.ctex"
+uid="uid://m3ljnndducvb"
+path="res://.godot/imported/box.png-52cc4e41fddadef836f9ad4dbe7936fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/alien_gun.png"
-dest_files=["res://.godot/imported/alien_gun.png-140e29a0aea8d8ab38c9d13500a08b54.ctex"]
+source_file="res://assets/box.png"
+dest_files=["res://.godot/imported/box.png-52cc4e41fddadef836f9ad4dbe7936fa.ctex"]
 
 [params]
 

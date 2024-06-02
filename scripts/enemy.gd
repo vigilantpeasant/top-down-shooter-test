@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-@onready var animated_sprite_2d = $AnimatedSprite2D
 @export var bullet_scene: PackedScene
 @onready var health_bar = $Healthbar
 @onready var damage_bar = $Healthbar/DamageBar
+@onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var navigation_agent = $NavigationAgent2D
 
 const SPEED = 120
-const MISS_CHANGE = 0.6
-const MAX_MISS_CHANGE = 15.0
+const MISS_CHANGE = 0.5
+const MAX_MISS_CHANGE = 10.0
 const DETECTION_RANGE = 350.0
 
 var HEALTH = 50
@@ -30,7 +30,8 @@ func _ready():
 func take_damage():
 	health_bar.visible = true
 	damage_bar.visible = true
-	HEALTH -= 15
+	var damage = randi_range(10, 15)
+	HEALTH -= damage
 	health_bar.value = HEALTH
 	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
 	if HEALTH <= 0:

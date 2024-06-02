@@ -1,10 +1,12 @@
 extends CharacterBody2D
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
-@onready var health_bar = $"../GUI/HealthBar"
-@onready var damage_bar = $"../GUI/HealthBar/DamageBar"
 @onready var marker_2d = %Marker2D
-@onready var label = $"../GUI/Label"
+@onready var material_label = get_node("/root/Main/LevelStructure/GUI/MaterialLabel")
+@onready var ammo = get_node("/root/Main/LevelStructure/GUI/Ammo")
+@onready var health_bar = get_node("/root/Main/LevelStructure/GUI/HealthBar")
+@onready var damage_bar = get_node("/root/Main/LevelStructure/GUI/HealthBar/DamageBar")
+@onready var game_over = get_node("/root/Main/LevelStructure/Control")
 
 const SPEED = 200
 const DASH_SPEED = 600
@@ -12,7 +14,7 @@ const DASH_DURATION = 0.2
 const DASH_INTERVAL = 0.5
 const RATE_OF_FIRE = 0.2
 const MISS_CHANCE = 0.3
-const MAX_MISS_ANGLE = 10.0
+const MAX_MISS_ANGLE = 5.0
 const MAX_AMMO = 15
 const RELOAD_TIME = 2.0
 
@@ -26,7 +28,7 @@ var CURRENT_AMMO = MAX_AMMO
 var is_reloading = false
 
 func _ready():
-	label.text = str(CURRENT_AMMO)
+	ammo.text = "Ammo: " + str(CURRENT_AMMO)
 	health_bar.max_value = MAX_HEALTH
 	health_bar.value = HEALTH
 	damage_bar.max_value = MAX_HEALTH
@@ -83,13 +85,13 @@ func shoot():
 		return
 	can_shoot = false
 	CURRENT_AMMO -= 1
-	label.text = str(CURRENT_AMMO)
+	ammo.text = "Ammo: " + str(CURRENT_AMMO)
 	var miss = randf() < MISS_CHANCE
 	var angle_offset = 0.0
 	if miss:
 		angle_offset = deg_to_rad(randf_range(-MAX_MISS_ANGLE, MAX_MISS_ANGLE))
 	
-	const BULLET = preload("res://scenes/bullet.tscn")
+	const BULLET = preload("res://assets/bullet.tscn")
 	var new_bullet = BULLET.instantiate()
 	new_bullet.global_position = marker_2d.global_position
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
@@ -102,18 +104,22 @@ func take_damage():
 	if can_dash == false:
 		pass
 	else:
-		HEALTH -= 10
+		var damage = randi_range(5, 10)
+		HEALTH -= damage
 		health_bar.value = HEALTH
 		create_timer(0.5).timeout.connect(_update_damage_bar)
 		if HEALTH <= 0:
+			health_bar.value = 0
+			damage_bar.value = 0
 			queue_free()
+			game_over.visible = true
 
 func reload():
 	is_reloading = true
-	label.text = "reloading"
+	ammo.text = "Reloading ..."
 	await create_timer(RELOAD_TIME).timeout
 	CURRENT_AMMO = MAX_AMMO
-	label.text = str(CURRENT_AMMO)
+	ammo.text = "Ammo: " + str(CURRENT_AMMO)
 	is_reloading = false
 
 func create_timer(wait_time: float) -> Timer:

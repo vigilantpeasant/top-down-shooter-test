@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://ce1pyen3yun3v"]
+
+[ext_resource type="Script" path="res://scripts/box.gd" id="1_eo0sy"]
+[ext_resource type="PackedScene" uid="uid://od0w3s1e0mli" path="res://assets/material.tscn" id="2_b5cfc"]
+[ext_resource type="Texture2D" uid="uid://m3ljnndducvb" path="res://assets/box3.png" id="2_mwump"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4sy0"]
+size = Vector2(35.5556, 35.5556)
+
+[node name="Box" type="StaticBody2D"]
+script = ExtResource("1_eo0sy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8.34465e-07)
+scale = Vector2(0.9, 0.9)
+shape = SubResource("RectangleShape2D_k4sy0")
+
+[node name="Material" parent="." instance=ExtResource("2_b5cfc")]
+collision_layer = 128
+collision_mask = 128
+
+[node name="Box2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_mwump")
+
+[connection signal="body_entered" from="Material" to="." method="_on_material_body_entered"]

@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://djhesu854die4"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_kv5dj"]
-[ext_resource type="PackedScene" uid="uid://ns3y0wne0y6b" path="res://scenes/trail.tscn" id="3_378au"]
-[ext_resource type="Texture2D" uid="uid://c7x1nnmesa5x1" path="res://assets/alien_idle.png" id="3_ih1gb"]
-[ext_resource type="Texture2D" uid="uid://d3bifka08mn0x" path="res://assets/alien_gun.png" id="4_vgn5t"]
+[ext_resource type="PackedScene" uid="uid://ns3y0wne0y6b" path="res://assets/trail.tscn" id="3_378au"]
+[ext_resource type="Texture2D" uid="uid://c7x1nnmesa5x1" path="res://assets/characters/alien_idle.png" id="3_ih1gb"]
+[ext_resource type="Texture2D" uid="uid://d3bifka08mn0x" path="res://assets/characters/alien_gun.png" id="4_vgn5t"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4lfo5"]
 animations = [{
