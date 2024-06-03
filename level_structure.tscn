@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=9 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="1_2vt2k"]
-[ext_resource type="Script" path="res://level_structure.gd" id="1_qd2qe"]
+[ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
 [ext_resource type="Texture2D" uid="uid://dua8qp4cv43ui" path="res://assets/healthbar.png" id="2_2w4sn"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_koyr6"]
-[ext_resource type="PackedScene" uid="uid://br4amvepv0fdt" path="res://assets/material.tscn" id="5_bis5h"]
+[ext_resource type="Texture2D" uid="uid://br25ugywa8r8v" path="res://assets/blank_bar.png" id="4_q6hxv"]
+[ext_resource type="Texture2D" uid="uid://dikq4gotr5wxi" path="res://assets/no_outline_materials.png" id="5_5klrk"]
+[ext_resource type="Texture2D" uid="uid://jr7nrjxc18it" path="res://assets/bulletbar.png" id="5_ovpmy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sdctn"]
 font = ExtResource("3_koyr6")
-font_size = 24
+font_size = 26
 
 [node name="LevelStructure" type="Node2D"]
 script = ExtResource("1_qd2qe")
@@ -47,6 +49,21 @@ theme_override_font_sizes/font_size = 24
 text = "Exit"
 
 [node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Bulletbar" type="Sprite2D" parent="GUI"]
+position = Vector2(56, 568)
+scale = Vector2(4.09375, 3.25)
+texture = ExtResource("5_ovpmy")
+
+[node name="MaterialBar" type="Sprite2D" parent="GUI"]
+position = Vector2(56, 499)
+scale = Vector2(4.094, 2.851)
+texture = ExtResource("4_q6hxv")
+
+[node name="Materials" type="Sprite2D" parent="GUI/MaterialBar"]
+position = Vector2(-5.37372, -2.10452)
+scale = Vector2(0.24426, 0.350754)
+texture = ExtResource("5_5klrk")
 
 [node name="HealthBar" parent="GUI" instance=ExtResource("1_2vt2k")]
 z_index = -1
@@ -88,13 +105,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -31.0
-offset_right = 96.0
-offset_bottom = 1.0
+offset_left = -544.0
+offset_top = -104.0
+offset_right = -488.0
+offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "reloading"
+text = "30"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -105,18 +122,16 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -53.0
-offset_right = 96.0
-offset_bottom = -21.0
+offset_left = -526.0
+offset_top = -171.0
+offset_right = -484.0
+offset_bottom = -139.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Material: 0"
+text = "0"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Material" parent="." instance=ExtResource("5_bis5h")]
 
 [connection signal="button_down" from="Control/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
 [connection signal="button_down" from="Control/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]

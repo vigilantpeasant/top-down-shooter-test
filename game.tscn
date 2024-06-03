@@ -47,6 +47,7 @@ pattern_0 = SubResource("TileMapPattern_t835d")
 [node name="Main" type="Node2D"]
 
 [node name="LevelStructure" parent="." instance=ExtResource("1_b7wk7")]
+z_index = 10
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_5qs4a")]
 position = Vector2(686, 265)
