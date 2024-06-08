@@ -1,11 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://caucqj0xidf51"]
+[gd_scene load_steps=5 format=3 uid="uid://caucqj0xidf51"]
 
 [ext_resource type="Script" path="res://scripts/health_bar.gd" id="1_x55de"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lcge5"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wgrvf"]
-bg_color = Color(0.0574173, 0.622966, 1, 1)
+[ext_resource type="Texture2D" uid="uid://cntv2k7k7rsfw" path="res://assets/progress.png" id="2_rd0is"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44lu3"]
 bg_color = Color(0.260506, 0.260506, 0.260506, 1)
@@ -13,14 +9,13 @@ bg_color = Color(0.260506, 0.260506, 0.260506, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n71u"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="HealthBar" type="ProgressBar"]
+[node name="HealthBar" type="TextureProgressBar"]
 z_index = 1
 offset_right = 112.0
 offset_bottom = 16.0
-theme_override_styles/background = SubResource("StyleBoxEmpty_lcge5")
-theme_override_styles/fill = SubResource("StyleBoxFlat_wgrvf")
 value = 50.0
-show_percentage = false
+nine_patch_stretch = true
+texture_progress = ExtResource("2_rd0is")
 script = ExtResource("1_x55de")
 
 [node name="DamageBar" type="ProgressBar" parent="."]

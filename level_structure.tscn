@@ -1,16 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=15 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="1_2vt2k"]
 [ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
-[ext_resource type="Texture2D" uid="uid://dua8qp4cv43ui" path="res://assets/healthbar.png" id="2_2w4sn"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_koyr6"]
-[ext_resource type="Texture2D" uid="uid://br25ugywa8r8v" path="res://assets/blank_bar.png" id="4_q6hxv"]
-[ext_resource type="Texture2D" uid="uid://dikq4gotr5wxi" path="res://assets/no_outline_materials.png" id="5_5klrk"]
-[ext_resource type="Texture2D" uid="uid://jr7nrjxc18it" path="res://assets/bulletbar.png" id="5_ovpmy"]
+[ext_resource type="Texture2D" uid="uid://dheqxb1ywlqmm" path="res://assets/hud.png" id="4_bjic2"]
+[ext_resource type="Texture2D" uid="uid://3idy2m2lub8i" path="res://assets/reload_button_prompt.png" id="5_b8rtg"]
+[ext_resource type="Texture2D" uid="uid://dto6tewd3pr6p" path="res://assets/right_mouse_prompt.png" id="6_onmlq"]
+[ext_resource type="Texture2D" uid="uid://6u64wr4tckw0" path="res://assets/left_mouse_prompt.png" id="7_8igx5"]
+[ext_resource type="Texture2D" uid="uid://ivbupu8f4dpr" path="res://assets/space_button_prompt.png" id="10_bd0cv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ttges"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sdctn"]
 font = ExtResource("3_koyr6")
 font_size = 26
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2to5h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okv5l"]
+bg_color = Color(0.6, 0.6, 0.6, 0.537255)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8nvib"]
+font = ExtResource("3_koyr6")
+font_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_1cw7j"]
+font = ExtResource("3_koyr6")
+font_size = 18
 
 [node name="LevelStructure" type="Node2D"]
 script = ExtResource("1_qd2qe")
@@ -50,90 +66,200 @@ text = "Exit"
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
-[node name="Bulletbar" type="Sprite2D" parent="GUI"]
-position = Vector2(56, 568)
-scale = Vector2(4.09375, 3.25)
-texture = ExtResource("5_ovpmy")
+[node name="HUD" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="MaterialBar" type="Sprite2D" parent="GUI"]
-position = Vector2(56, 499)
-scale = Vector2(4.094, 2.851)
-texture = ExtResource("4_q6hxv")
+[node name="Hud" type="Sprite2D" parent="GUI/HUD"]
+z_index = 1
+position = Vector2(579.9, 602.7)
+scale = Vector2(1.11989, 1.11563)
+texture = ExtResource("4_bjic2")
 
-[node name="Materials" type="Sprite2D" parent="GUI/MaterialBar"]
-position = Vector2(-5.37372, -2.10452)
-scale = Vector2(0.24426, 0.350754)
-texture = ExtResource("5_5klrk")
-
-[node name="HealthBar" parent="GUI" instance=ExtResource("1_2vt2k")]
+[node name="DashEffect" type="ProgressBar" parent="GUI/HUD/Hud"]
 z_index = -1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = -1
+anchor_top = -0.0875
+anchor_bottom = -0.0875
+offset_left = -61.0
+offset_top = 8.83334
+offset_bottom = 34.8333
+theme_override_styles/background = SubResource("StyleBoxEmpty_ttges")
+step = 0.05
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar" parent="GUI/HUD/Hud" instance=ExtResource("1_2vt2k")]
+z_index = -1
+anchors_preset = -1
+anchor_left = 0.497159
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 0.497159
 anchor_bottom = 1.0
-offset_left = -540.0
-offset_top = -32.0
-offset_right = -308.0
-offset_bottom = -8.0
+offset_left = -236.833
+offset_top = -93.3333
+offset_right = -113.833
+offset_bottom = -53.3333
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.00583, 0.66475)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-fill_color = Color(0.958936, 0, 0.128634, 1)
-damage_fill_color = Color(0.999982, 0.808435, 0.785002, 1)
+fill_color = Color(0, 0.639216, 0, 1)
+damage_fill_color = Color(1, 1, 1, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="DamageBar" parent="GUI/HealthBar" index="0"]
+[node name="DamageBar" parent="GUI/HUD/Hud/HealthBar" index="0"]
 anchor_right = 0.992248
-offset_right = -0.0309906
+offset_right = 0.945747
 grow_vertical = 0
-scale = Vector2(1.00808, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="GUI"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -48.0
-offset_right = 277.0
-grow_vertical = 0
-texture = ExtResource("2_2w4sn")
-
-[node name="Ammo" type="Label" parent="GUI"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -544.0
-offset_top = -104.0
-offset_right = -488.0
-offset_bottom = -72.0
+[node name="Ammo" type="Label" parent="GUI/HUD/Hud"]
+anchors_preset = -1
+anchor_left = 0.463068
+anchor_top = 0.992188
+anchor_right = 0.463068
+anchor_bottom = 0.992188
+offset_left = -112.0
+offset_top = -86.5
+offset_right = -53.0
+offset_bottom = -41.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "30"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="MaterialLabel" type="Label" parent="GUI"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="ReloadBar" type="ProgressBar" parent="GUI/HUD/Hud/Ammo"]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.783
 anchor_bottom = 1.0
-offset_left = -526.0
-offset_top = -171.0
-offset_right = -484.0
-offset_bottom = -139.0
+offset_left = 9.0
+offset_right = -10.018
+theme_override_styles/background = SubResource("StyleBoxEmpty_2to5h")
+theme_override_styles/fill = SubResource("StyleBoxFlat_okv5l")
+show_percentage = false
+
+[node name="MaterialLabel" type="Label" parent="GUI/HUD/Hud"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.00521
+anchor_right = 0.5
+anchor_bottom = 1.02083
+offset_left = -297.0
+offset_top = -86.3333
+offset_right = -240.0
+offset_bottom = -43.3333
 grow_horizontal = 2
 grow_vertical = 0
 text = "0"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="SpaceButtonPrompt" type="Sprite2D" parent="GUI/HUD"]
+position = Vector2(35, 623)
+scale = Vector2(1.3056, 1.055)
+texture = ExtResource("10_bd0cv")
+
+[node name="RightMousePrompt" type="Sprite2D" parent="GUI/HUD"]
+position = Vector2(19.375, 537.75)
+scale = Vector2(1.04167, 1.15)
+texture = ExtResource("6_onmlq")
+
+[node name="LeftMousePrompt" type="Sprite2D" parent="GUI/HUD"]
+position = Vector2(19.375, 565.75)
+scale = Vector2(1.04167, 1.15)
+texture = ExtResource("7_8igx5")
+
+[node name="infoDash" type="Label" parent="GUI/HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 43.5231
+offset_top = 587.603
+offset_right = 103.523
+offset_bottom = 618.603
+grow_horizontal = 2
+grow_vertical = 2
+text = "DASH"
+label_settings = SubResource("LabelSettings_8nvib")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="infoReload" type="Label" parent="GUI/HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 22.112
+offset_top = 559.965
+offset_right = 93.112
+offset_bottom = 585.965
+grow_horizontal = 2
+grow_vertical = 2
+text = "RELOAD"
+label_settings = SubResource("LabelSettings_1cw7j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="infoShoot" type="Label" parent="GUI/HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 11.375
+offset_top = 533.75
+offset_right = 82.375
+offset_bottom = 559.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "SHOOT"
+label_settings = SubResource("LabelSettings_1cw7j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="infoAim" type="Label" parent="GUI/HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 16.375
+offset_top = 504.75
+offset_right = 51.375
+offset_bottom = 530.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "AIM"
+label_settings = SubResource("LabelSettings_1cw7j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReloadButtonPrompt" type="Sprite2D" parent="GUI/HUD"]
+position = Vector2(20.625, 593.757)
+rotation = -0.00104384
+scale = Vector2(1.23913, 1)
+skew = -0.0005548
+texture = ExtResource("5_b8rtg")
 
 [connection signal="button_down" from="Control/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
 [connection signal="button_down" from="Control/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
 
-[editable path="GUI/HealthBar"]
+[editable path="GUI/HUD/Hud/HealthBar"]

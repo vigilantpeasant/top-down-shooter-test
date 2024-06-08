@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dua8qp4cv43ui"
-path="res://.godot/imported/healthbar.png-471c6be8dcfbc1f62d350b14abdbb8fb.ctex"
+uid="uid://ivbupu8f4dpr"
+path="res://.godot/imported/space_button_prompt.png-4195c00e8412eae7b3d9234b4c6caff5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/healthbar.png"
-dest_files=["res://.godot/imported/healthbar.png-471c6be8dcfbc1f62d350b14abdbb8fb.ctex"]
+source_file="res://assets/space_button_prompt.png"
+dest_files=["res://.godot/imported/space_button_prompt.png-4195c00e8412eae7b3d9234b4c6caff5.ctex"]
 
 [params]
 

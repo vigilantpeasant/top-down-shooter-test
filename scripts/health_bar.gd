@@ -1,6 +1,7 @@
-extends ProgressBar
-@export var fill_color: Color
+extends TextureProgressBar
+
 @onready var damage_bar = $DamageBar
+@export var fill_color: Color
 @export var damage_fill_color: Color
 
 func _ready():

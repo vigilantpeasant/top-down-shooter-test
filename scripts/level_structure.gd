@@ -11,5 +11,4 @@ func _on_main_menu_button_down():
 	GameState.retry = true
 
 func _ready():
-	# Reset material count after scene load
 	GameState.material_count = 0

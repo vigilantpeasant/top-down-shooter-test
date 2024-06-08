@@ -5,7 +5,7 @@
 
 [sub_resource type="Theme" id="Theme_8rv0e"]
 default_font = ExtResource("2_umr2p")
-default_font_size = 24
+default_font_size = 22
 Button/colors/font_focus_color = Color(0, 0.65098, 0.952941, 1)
 Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
 
@@ -53,7 +53,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "Start a new game!"
-theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "New Game"
 
@@ -62,7 +61,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "Adjust the settings!"
-theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "Settings"
 

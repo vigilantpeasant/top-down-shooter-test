@@ -1,12 +1,14 @@
 extends CharacterBody2D
 
+@onready var reload_bar = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/Ammo/ReloadBar")
 @onready var animated_sprite_2d = $AnimatedSprite2D
-@onready var marker_2d = %Marker2D
-@onready var material_label = get_node("/root/Main/LevelStructure/GUI/MaterialLabel")
-@onready var ammo = get_node("/root/Main/LevelStructure/GUI/Ammo")
-@onready var health_bar = get_node("/root/Main/LevelStructure/GUI/HealthBar")
-@onready var damage_bar = get_node("/root/Main/LevelStructure/GUI/HealthBar/DamageBar")
+@onready var marker_2d = $AnimatedSprite2D/Marker2D
+@onready var material_label = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/MaterialLabel")
+@onready var ammo = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/Ammo")
+@onready var health_bar = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/HealthBar") as TextureProgressBar
+@onready var damage_bar = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/HealthBar/DamageBar") as TextureProgressBar
 @onready var game_over = get_node("/root/Main/LevelStructure/Control")
+@onready var dash_effect = get_node("/root/Main/LevelStructure/GUI/HUD/Hud/DashEffect")
 
 const SPEED = 200
 const DASH_SPEED = 600
@@ -17,6 +19,7 @@ const MISS_CHANCE = 0.3
 const MAX_MISS_ANGLE = 5.0
 const MAX_AMMO = 20
 const RELOAD_TIME = 1.5
+const ADDITIONAL_WAIT_TIME = 0.2
 
 var can_shoot = true
 var HEALTH = 100
@@ -29,16 +32,17 @@ var is_reloading = false
 
 func _ready():
 	ammo.text = str(CURRENT_AMMO)
-	health_bar.max_value = MAX_HEALTH
-	health_bar.value = HEALTH
-	damage_bar.max_value = MAX_HEALTH
-	damage_bar.value = HEALTH
-
-func _update_damage_bar():
-	if damage_bar.value > health_bar.value:
-		damage_bar.value -= 1
-		if damage_bar.value > health_bar.value:
-			create_timer(0.05).timeout.connect(_update_damage_bar)
+	if health_bar:
+		health_bar.max_value = MAX_HEALTH
+		health_bar.value = HEALTH
+	if damage_bar:
+		damage_bar.max_value = MAX_HEALTH
+		damage_bar.value = HEALTH
+	if dash_effect:
+		dash_effect.max_value = 100
+		dash_effect.value = 0
+	reload_bar.visible = false
+	update_health_bar_texture()
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -51,7 +55,6 @@ func _physics_process(_delta):
 			dashing = false
 	else:
 		velocity = direction * SPEED
-	
 	move_and_slide()
 
 func _process(_delta):
@@ -63,22 +66,35 @@ func _process(_delta):
 		animated_sprite_2d.play("idle")
 	
 	if Input.is_action_just_pressed("dash") and can_dash:
-		start_dash()
+		dashing = true
+		dash_timer = DASH_DURATION
+		dash_effect.value = 0
+		can_dash = false
+		increment_dash_effect()
 
 	if Input.is_action_just_pressed("reload") and not is_reloading:
-		reload()
+		is_reloading = true
+		can_shoot = false
+		reload_bar.visible = true
+		reload_bar.value = 0
+		ammo.text = "Re"
+		increment_reload_bar()
 	
-	if is_reloading == true:
+	if is_reloading:
 		animated_sprite_2d.play("gun")
 
-func start_dash():
-	dashing = true
-	dash_timer = DASH_DURATION
-	can_dash = false
-	create_timer(DASH_INTERVAL).timeout.connect(reset_dash)
-
-func reset_dash():
-	can_dash = true
+func increment_dash_effect():
+	var step = 0.05
+	var increment_amount = 100.0 * step / DASH_INTERVAL
+	dash_effect.value += increment_amount
+	if dash_effect.value < 100:
+		var timer = create_timer(step)
+		timer.timeout.connect(increment_dash_effect)
+	else:
+		var wait_timer = create_timer(ADDITIONAL_WAIT_TIME)
+		await wait_timer.timeout
+		dash_effect.value = 0
+		can_dash = true
 
 func shoot():
 	if CURRENT_AMMO <= 0 or is_reloading:
@@ -86,13 +102,10 @@ func shoot():
 	can_shoot = false
 	CURRENT_AMMO -= 1
 	ammo.text = str(CURRENT_AMMO)
-	var miss = randf() < MISS_CHANCE
 	var angle_offset = 0.0
-	if miss:
+	if randf() < MISS_CHANCE:
 		angle_offset = deg_to_rad(randf_range(-MAX_MISS_ANGLE, MAX_MISS_ANGLE))
-	
-	const BULLET = preload("res://assets/bullet.tscn")
-	var new_bullet = BULLET.instantiate()
+	var new_bullet = preload("res://assets/bullet.tscn").instantiate()
 	new_bullet.global_position = marker_2d.global_position
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
 	marker_2d.add_child(new_bullet)
@@ -100,27 +113,44 @@ func shoot():
 	await create_timer(RATE_OF_FIRE).timeout
 	can_shoot = true
 
-func take_damage():
-	if can_dash == false:
-		pass
+func increment_reload_bar():
+	var step = 0.05
+	var increment_amount = 100.0 * step / RELOAD_TIME
+	reload_bar.value += increment_amount
+	if reload_bar.value < 100:
+		var timer = create_timer(step)
+		timer.timeout.connect(increment_reload_bar)
 	else:
-		var damage = randi_range(5, 10)
-		HEALTH -= damage
-		health_bar.value = HEALTH
-		create_timer(0.5).timeout.connect(_update_damage_bar)
-		if HEALTH <= 0:
-			health_bar.value = 0
-			damage_bar.value = 0
-			queue_free()
-			game_over.visible = true
+		CURRENT_AMMO = MAX_AMMO
+		ammo.text = str(CURRENT_AMMO)
+		reload_bar.visible = false
+		is_reloading = false
+		await create_timer(0.5).timeout
+		can_shoot = true
 
-func reload():
-	is_reloading = true
-	ammo.text = "Re"
-	await create_timer(RELOAD_TIME).timeout
-	CURRENT_AMMO = MAX_AMMO
-	ammo.text = str(CURRENT_AMMO)
-	is_reloading = false
+func take_damage():
+	if not can_dash:
+		return
+	var damage = randi_range(5, 10)
+	HEALTH -= damage
+	if health_bar:
+		health_bar.value = HEALTH
+	create_timer(0.5).timeout.connect(_update_damage_bar)
+	update_health_bar_texture()
+	
+	if HEALTH <= 0:
+		if health_bar:
+			health_bar.value = 0
+		if damage_bar:
+			damage_bar.value = 0
+		queue_free()
+		game_over.visible = true
+
+func _update_damage_bar():
+	if damage_bar and damage_bar.value > health_bar.value:
+		damage_bar.value -= 1
+		if damage_bar.value > health_bar.value:
+			create_timer(0.05).timeout.connect(_update_damage_bar)
 
 func create_timer(wait_time: float) -> Timer:
 	var timer = Timer.new()
@@ -129,3 +159,13 @@ func create_timer(wait_time: float) -> Timer:
 	add_child(timer)
 	timer.start()
 	return timer
+
+func update_health_bar_texture():
+	if HEALTH > 75:
+		health_bar.texture_progress = preload("res://assets/progress.png")
+	elif HEALTH > 50:
+		health_bar.texture_progress = preload("res://assets/progress2.png")
+	elif HEALTH > 25:
+		health_bar.texture_progress = preload("res://assets/progress3.png")
+	else:
+		health_bar.texture_progress = preload("res://assets/progress4.png")

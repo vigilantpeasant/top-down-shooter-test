@@ -32,6 +32,7 @@ size = Vector2(24, 32)
 size = Vector2(232, 208)
 
 [node name="Enemy" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_rn1aw")
 bullet_scene = ExtResource("2_sdler")
 
