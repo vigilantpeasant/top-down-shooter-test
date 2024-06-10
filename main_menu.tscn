@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://lr3gclapgfu7"]
+[gd_scene load_steps=5 format=3 uid="uid://lr3gclapgfu7"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_25erc"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
@@ -8,6 +8,10 @@ default_font = ExtResource("2_umr2p")
 default_font_size = 22
 Button/colors/font_focus_color = Color(0, 0.65098, 0.952941, 1)
 Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uht4k"]
+font = ExtResource("2_umr2p")
+font_size = 70
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -41,28 +45,46 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -60.5
-offset_top = -40.0
-offset_right = 60.5
-offset_bottom = 40.0
+offset_left = -128.0
+offset_top = 171.0
+offset_right = 128.0
+offset_bottom = 251.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="New Game" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 0
 tooltip_text = "Start a new game!"
+focus_neighbor_bottom = NodePath("../Settings")
 theme_override_font_sizes/font_size = 24
 text = "New Game"
 
 [node name="Settings" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 tooltip_text = "Adjust the settings!"
+focus_neighbor_top = NodePath("../New Game")
 theme_override_font_sizes/font_size = 24
 text = "Settings"
+
+[node name="GameName" type="Label" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -391.5
+offset_top = -104.0
+offset_right = 393.5
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PROJECT: FALL FACTORY"
+label_settings = SubResource("LabelSettings_uht4k")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Settings Menu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -99,9 +121,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -36.0
-offset_right = 36.0
-offset_bottom = 40.0
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 38.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24

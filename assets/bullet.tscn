@@ -8,6 +8,7 @@ size = Vector2(16, 8)
 
 [node name="Bullet" type="Area2D"]
 top_level = true
+z_index = 1
 script = ExtResource("1_tk3qq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

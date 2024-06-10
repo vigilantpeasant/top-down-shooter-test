@@ -1,13 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvfrlmcau0mww"]
+[gd_scene load_steps=10 format=3 uid="uid://bvfrlmcau0mww"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_rn1aw"]
 [ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_sdler"]
 [ext_resource type="Texture2D" uid="uid://cnf5ntihuqcwv" path="res://assets/characters/enemy_idle.png" id="3_auoxu"]
+[ext_resource type="Texture2D" uid="uid://dgl1gx4m20qy0" path="res://assets/characters/enemy_dead.png" id="3_bsex4"]
 [ext_resource type="Texture2D" uid="uid://bp56jw823vic0" path="res://assets/characters/enemy_gun.png" id="4_ysxc1"]
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="5_rju02"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xw4tw"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_bsex4")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_auoxu")
@@ -59,9 +68,9 @@ shape = SubResource("RectangleShape2D_w7gwb")
 
 [node name="Healthbar" parent="." instance=ExtResource("5_rju02")]
 offset_left = -24.0
-offset_top = -27.0
+offset_top = -32.0
 offset_right = 24.0
-offset_bottom = -22.0
+offset_bottom = -27.0
 fill_color = Color(0.756863, 0.0705882, 0.121569, 1)
 damage_fill_color = Color(1, 1, 1, 1)
 

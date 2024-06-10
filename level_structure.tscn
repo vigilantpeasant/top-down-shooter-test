@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=17 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="1_2vt2k"]
 [ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://dto6tewd3pr6p" path="res://assets/right_mouse_prompt.png" id="6_onmlq"]
 [ext_resource type="Texture2D" uid="uid://6u64wr4tckw0" path="res://assets/left_mouse_prompt.png" id="7_8igx5"]
 [ext_resource type="Texture2D" uid="uid://ivbupu8f4dpr" path="res://assets/space_button_prompt.png" id="10_bd0cv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xt7yy"]
+font = ExtResource("3_koyr6")
+font_size = 60
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ttges"]
 
@@ -28,54 +32,70 @@ font_size = 18
 font = ExtResource("3_koyr6")
 font_size = 18
 
+[sub_resource type="LabelSettings" id="LabelSettings_2rj6u"]
+font = ExtResource("3_koyr6")
+
 [node name="LevelStructure" type="Node2D"]
 script = ExtResource("1_qd2qe")
 
-[node name="Control" type="Control" parent="."]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="GameOver" type="Control" parent="GUI"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1144.0
 offset_bottom = 648.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="Label" type="Label" parent="GUI/GameOver"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_top = 122.0
+offset_right = 128.0
+offset_bottom = 173.0
+grow_horizontal = 2
+text = "YOU DIED"
+label_settings = SubResource("LabelSettings_xt7yy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GameOver"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -41.0
-offset_right = 64.0
-offset_bottom = 41.0
+offset_left = -124.0
+offset_top = 164.0
+offset_right = 132.0
+offset_bottom = 244.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TryAgain" type="Button" parent="Control/VBoxContainer"]
+[node name="TryAgain" type="Button" parent="GUI/GameOver/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_koyr6")
 theme_override_font_sizes/font_size = 24
 text = "Retry"
 
-[node name="MainMenu" type="Button" parent="Control/VBoxContainer"]
+[node name="MainMenu" type="Button" parent="GUI/GameOver/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_koyr6")
 theme_override_font_sizes/font_size = 24
 text = "Exit"
 
-[node name="GUI" type="CanvasLayer" parent="."]
-
 [node name="HUD" type="Control" parent="GUI"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Hud" type="Sprite2D" parent="GUI/HUD"]
 z_index = 1
-position = Vector2(579.9, 602.7)
-scale = Vector2(1.11989, 1.11563)
+position = Vector2(571, 600)
+scale = Vector2(1.1, 1.096)
 texture = ExtResource("4_bjic2")
 
 [node name="DashEffect" type="ProgressBar" parent="GUI/HUD/Hud"]
@@ -141,8 +161,8 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.783
 anchor_bottom = 1.0
-offset_left = 9.0
-offset_right = -10.018
+offset_left = 12.0
+offset_right = -10.197
 theme_override_styles/background = SubResource("StyleBoxEmpty_2to5h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_okv5l")
 show_percentage = false
@@ -187,10 +207,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 43.5231
-offset_top = 587.603
-offset_right = 103.523
-offset_bottom = 618.603
+offset_left = 64.1479
+offset_top = 608.853
+offset_right = 124.148
+offset_bottom = 639.853
 grow_horizontal = 2
 grow_vertical = 2
 text = "DASH"
@@ -205,10 +225,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 22.112
-offset_top = 559.965
-offset_right = 93.112
-offset_bottom = 585.965
+offset_left = 42.7371
+offset_top = 581.215
+offset_right = 113.737
+offset_bottom = 607.215
 grow_horizontal = 2
 grow_vertical = 2
 text = "RELOAD"
@@ -223,10 +243,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 11.375
-offset_top = 533.75
-offset_right = 82.375
-offset_bottom = 559.75
+offset_left = 32.0
+offset_top = 555.0
+offset_right = 103.0
+offset_bottom = 581.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "SHOOT"
@@ -241,10 +261,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 16.375
-offset_top = 504.75
-offset_right = 51.375
-offset_bottom = 530.75
+offset_left = 37.0
+offset_top = 526.0
+offset_right = 72.0
+offset_bottom = 552.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "AIM"
@@ -259,7 +279,13 @@ scale = Vector2(1.23913, 1)
 skew = -0.0005548
 texture = ExtResource("5_b8rtg")
 
-[connection signal="button_down" from="Control/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
-[connection signal="button_down" from="Control/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
+[node name="Version" type="Label" parent="GUI"]
+offset_right = 64.0
+offset_bottom = 23.0
+text = "v0.4"
+label_settings = SubResource("LabelSettings_2rj6u")
+
+[connection signal="button_down" from="GUI/GameOver/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
+[connection signal="button_down" from="GUI/GameOver/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
 
 [editable path="GUI/HUD/Hud/HealthBar"]
