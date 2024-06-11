@@ -41,13 +41,14 @@ _data = [Vector2(0, 0.260377), 0.0, 0.0, 0, 0, Vector2(1, 0.501887), 0.0, 0.0, 0
 point_count = 2
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 3
 script = ExtResource("1_kv5dj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, -1.90735e-06)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_4lfo5")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]

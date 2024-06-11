@@ -115,6 +115,7 @@ func shoot():
 	if randf() < MISS_CHANCE:
 		angle_offset = deg_to_rad(randf_range(-MAX_MISS_ANGLE, MAX_MISS_ANGLE))
 	var new_bullet = preload("res://assets/bullet.tscn").instantiate()
+	new_bullet.modulate = Color("ORCHID")
 	new_bullet.global_position = marker_2d.global_position
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
 	marker_2d.add_child(new_bullet)

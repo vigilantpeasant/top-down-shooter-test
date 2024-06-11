@@ -5,6 +5,7 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44lu3"]
 bg_color = Color(0.260506, 0.260506, 0.260506, 1)
+corner_radius_top_right = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n71u"]
 bg_color = Color(1, 1, 1, 1)

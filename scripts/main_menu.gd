@@ -3,6 +3,7 @@ extends Control
 @onready var settings_menu = %"Settings Menu"
 
 func _on_new_game_pressed():
+	GameState.retry = false
 	get_tree().change_scene_to_file("res://game.tscn")
 
 func _input(_event):

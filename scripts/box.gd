@@ -7,6 +7,7 @@ func take_damage():
 	if health <= 0:
 		call_deferred("drop_material")
 		queue_free()
+		GameState.broken_boxes[global_position] = true
 
 func drop_material():
 	var MaterialInstance = preload("res://assets/material.tscn").instantiate()

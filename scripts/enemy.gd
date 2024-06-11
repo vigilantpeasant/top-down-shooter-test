@@ -110,6 +110,7 @@ func shoot():
 		if miss:
 			angle_offset = deg_to_rad(randf_range(-MAX_MISS_CHANGE, MAX_MISS_CHANGE))
 		var bullet = bullet_scene.instantiate() as Area2D
+		bullet.modulate = Color("GOLD")
 		var marker_position = $AnimatedSprite2D/Marker2D.global_position
 		bullet.position = marker_position
 		bullet.rotation = (player.global_position - marker_position).angle() + angle_offset

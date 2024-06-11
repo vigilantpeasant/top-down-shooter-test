@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://ofwadpbv4rpq"]
+
+[ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_2dyqy"]
+[ext_resource type="Texture2D" uid="uid://cwetgem2caurs" path="res://assets/checkpoint.png" id="2_b8plh"]
+[ext_resource type="Texture2D" uid="uid://cnm0inl2nhiqe" path="res://assets/checkpoint2.png" id="3_wx2wm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8q7jg"]
+size = Vector2(128, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3vbf1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_b8plh")
+}],
+"loop": true,
+"name": &"offline",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_wx2wm")
+}],
+"loop": true,
+"name": &"online",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hwdv"]
+size = Vector2(32, 64)
+
+[node name="Checkpoint" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_2dyqy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_8q7jg")
+debug_color = Color(0.890577, 0.279389, 0.434208, 0.42)
+
+[node name="Area2D" type="StaticBody2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+sprite_frames = SubResource("SpriteFrames_3vbf1")
+animation = &"offline"
+autoplay = "offline"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1hwdv")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
