@@ -5,13 +5,20 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44lu3"]
 bg_color = Color(0.260506, 0.260506, 0.260506, 1)
-corner_radius_top_right = 5
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.635294, 0.0313726, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1n71u"]
 bg_color = Color(1, 1, 1, 1)
 
 [node name="HealthBar" type="TextureProgressBar"]
-z_index = 1
 offset_right = 112.0
 offset_bottom = 16.0
 value = 50.0

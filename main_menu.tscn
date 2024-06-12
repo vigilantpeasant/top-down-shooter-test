@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://lr3gclapgfu7"]
+[gd_scene load_steps=9 format=3 uid="uid://lr3gclapgfu7"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_25erc"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
@@ -13,7 +13,48 @@ Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
 font = ExtResource("2_umr2p")
 font_size = 70
 
+[sub_resource type="Animation" id="Animation_jt1tr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_caypv"]
+resource_name = "appear"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_45nel"]
+_data = {
+"RESET": SubResource("Animation_jt1tr"),
+"appear": SubResource("Animation_caypv")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_uglcn"]
+font = ExtResource("2_umr2p")
+
 [node name="Main Menu" type="Control"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,33 +81,37 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -128.0
-offset_top = 171.0
+offset_top = -136.0
 offset_right = 128.0
-offset_bottom = 251.0
+offset_bottom = -16.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="New Game" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-tooltip_text = "Play the game!"
 focus_neighbor_bottom = NodePath("../Settings")
+theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "Play"
 
 [node name="Settings" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-tooltip_text = "Adjust the settings!"
 focus_neighbor_top = NodePath("../New Game")
+theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
-text = "Settings"
+text = "Options"
+
+[node name="Exit" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
 
 [node name="GameName" type="Label" parent="Main"]
 layout_mode = 1
@@ -112,23 +157,40 @@ anchor_bottom = 0.5
 offset_left = -512.0
 offset_top = -260.0
 offset_right = 512.0
-offset_bottom = 252.0
+offset_bottom = 268.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Back" type="Button" parent="Settings Menu"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
+anchor_bottom = 1.0
 offset_left = -128.0
+offset_top = -48.0
 offset_right = 128.0
-offset_bottom = 38.0
+offset_bottom = -10.0
 grow_horizontal = 2
+grow_vertical = 0
 theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "Back"
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_45nel")
+}
+
+[node name="Version" type="Label" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 23.0
+text = "game_version"
+label_settings = SubResource("LabelSettings_uglcn")
+
 [connection signal="pressed" from="Main/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Settings Menu/Back" to="." method="_on_back_pressed"]

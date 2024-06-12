@@ -1,6 +1,6 @@
 extends Area2D
 
-const BULLET_SPEED = 500
+const BULLET_SPEED = 650
 const BULLET_RANGE = 1200
 var travelled_distance = 200
 var direction : Vector2

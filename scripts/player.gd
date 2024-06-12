@@ -1,15 +1,17 @@
 extends CharacterBody2D
 
-@onready var reload_bar = $"/root/Main/LevelStructure/GUI/HUD/Hud/Ammo/ReloadBar"
+@onready var reload_bar = $"/root/Main/LevelStructure/GUI/HUD/AmmoPanel/Ammo/ReloadBar"
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var marker_2d = $AnimatedSprite2D/Marker2D
-@onready var material_label = $"/root/Main/LevelStructure/GUI/HUD/Hud/MaterialLabel"
-@onready var ammo = $"/root/Main/LevelStructure/GUI/HUD/Hud/Ammo"
-@onready var health_bar = $"/root/Main/LevelStructure/GUI/HUD/Hud/HealthBar" as TextureProgressBar
-@onready var damage_bar = $"/root/Main/LevelStructure/GUI/HUD/Hud/HealthBar/DamageBar" as ProgressBar
+@onready var material_label = $"/root/Main/LevelStructure/GUI/HUD/MaterialPanel/MaterialLabel"
+@onready var ammo = $"/root/Main/LevelStructure/GUI/HUD/AmmoPanel/Ammo"
+@onready var health_bar = $"/root/Main/LevelStructure/GUI/HUD/HealthBar" as TextureProgressBar
+@onready var health_label = $"/root/Main/LevelStructure/GUI/HUD/HealthBar/HealthLabel" as Label
+@onready var damage_bar = $"/root/Main/LevelStructure/GUI/HUD/HealthBar/DamageBar" as ProgressBar
 @onready var game_over = $"/root/Main/LevelStructure/GUI/GameOver"
 @onready var game_ui = $/root/Main/LevelStructure/GUI/HUD
-@onready var dash_effect = $"/root/Main/LevelStructure/GUI/HUD/Hud/DashEffect"
+@onready var dash_effect = $"/root/Main/LevelStructure/GUI/HUD/DashPanel/DashEffect"
+@onready var GUI_animation = $"/root/Main/LevelStructure/AnimationPlayer"
 
 const SPEED = 200
 const DASH_SPEED = 600
@@ -35,6 +37,7 @@ var is_alive = true
 func _ready():
 	animated_sprite_2d.play("idle")
 	ammo.text = str(current_ammo)
+	health_label.text = str(health) + " / " + str(max_health)
 	if health_bar:
 		health_bar.max_value = max_health
 		health_bar.value = health
@@ -144,6 +147,7 @@ func take_damage():
 	health -= randi_range(5, 10)
 	if health_bar:
 		health_bar.value = health
+		health_label.text = str(health) + " / " + str(max_health)
 	create_timer(0.5).timeout.connect(_update_damage_bar)
 	update_health_bar_texture()
 	
@@ -155,11 +159,13 @@ func take_damage():
 		is_alive = false
 		animated_sprite_2d.play("dead")
 		game_over.visible = true
+		GUI_animation.play("game_over")
 		game_ui.visible = false
 
 func _update_damage_bar():
 	if damage_bar and damage_bar.value > health_bar.value:
 		damage_bar.value -= 1
+		health_label.text = str(health) + " / " + str(max_health)
 		if damage_bar.value > health_bar.value:
 			create_timer(0.05).timeout.connect(_update_damage_bar)
 

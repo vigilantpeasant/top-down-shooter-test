@@ -1,7 +1,10 @@
 extends Node2D
 
 func _ready():
-	$GUI/HUD/Hud/MaterialLabel.text = str(GameState.material_count)
+	$GUI/HUD/MaterialPanel/MaterialLabel.text = str(GameState.material_count)
+
+func _process(_delta):
+	$GUI/Version.text = GameState.game_version + "\n" + str(Engine.get_frames_per_second())
 
 func _on_retry_button_down():
 	GameState.retry = false

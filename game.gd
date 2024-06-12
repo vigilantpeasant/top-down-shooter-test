@@ -6,4 +6,8 @@ func _enter_tree():
 		GameState.material_count = GameState.checkpoint_material_count
 		for box in $Boxes.get_children():
 			if GameState.broken_boxes.has(box.global_position):
-				box.queue_free()
+				if GameState.material_collected.has(box.global_position):
+					box.queue_free()
+				else:
+					box.health = 1
+					box.visible = true

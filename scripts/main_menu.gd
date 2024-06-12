@@ -1,6 +1,11 @@
 extends Control
 @onready var main_menu = %Main
 @onready var settings_menu = %"Settings Menu"
+@onready var animation_player = $AnimationPlayer
+
+func _ready():
+	animation_player.play("appear")
+	$Version.text = GameState.game_version
 
 func _on_new_game_pressed():
 	GameState.retry = false
@@ -8,13 +13,18 @@ func _on_new_game_pressed():
 
 func _input(_event):
 	if Input.is_key_pressed(KEY_ESCAPE):
+		animation_player.play("appear")
 		main_menu.show()
 		settings_menu.hide()
 
 func _on_back_pressed():
+	animation_player.play("appear")
 	main_menu.show()
 	settings_menu.hide()
 
 func _on_settings_pressed():
 	main_menu.hide()
 	settings_menu.show()
+
+func _on_exit_pressed():
+	get_tree().quit()

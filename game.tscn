@@ -105,7 +105,7 @@ z_index = 10
 
 [node name="Player" parent="." instance=ExtResource("1_5qs4a")]
 z_index = 40
-position = Vector2(-736, -56)
+position = Vector2(-744, -152)
 collision_layer = 131
 collision_mask = 129
 
@@ -143,7 +143,7 @@ position = Vector2(152, 22)
 position = Vector2(-544, -168)
 
 [node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("7_f7ixf")]
-position = Vector2(176, -104)
+position = Vector2(524, -35)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 visible = false
