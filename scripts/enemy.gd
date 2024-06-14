@@ -31,10 +31,19 @@ func _ready():
 		health_bar.visible = false
 		damage_bar.visible = false
 
-func take_damage():
+func take_damage(min_damage : int, max_damage : int):
 	health_bar.visible = true
 	damage_bar.visible = true
-	health -= randi_range(10, 15)
+	
+	var blood = preload("res://assets/particle.tscn").instantiate() as GPUParticles2D
+	blood.modulate = Color(0.698039, 0.133333, 0.133333, 1)
+	get_parent().add_child(blood)
+	var direction = (global_position - get_global_mouse_position()).normalized()
+	blood.global_position = global_position + direction * 10
+	blood.global_rotation = direction.angle()
+	blood.emitting = true
+	
+	health -= randi_range(min_damage, max_damage)
 	health_bar.value = health
 	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
 	if health <= 0:
@@ -43,6 +52,7 @@ func take_damage():
 		collision_shape_2d.queue_free()
 		health_bar.visible = false
 		damage_bar.visible = false
+		create_tween().tween_property(self, "modulate", Color.TRANSPARENT, 10.0)
 		await get_tree().create_timer(10.0).timeout
 		queue_free()
 	else:

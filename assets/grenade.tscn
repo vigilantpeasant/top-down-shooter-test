@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://dj4vbw8xwa568"]
+
+[ext_resource type="Texture2D" uid="uid://cpch7jp2n221c" path="res://assets/grenade.png" id="1_dcjm1"]
+[ext_resource type="Script" path="res://scripts/grenade.gd" id="1_ydc01"]
+[ext_resource type="Texture2D" uid="uid://xpylrhxjhnn3" path="res://assets/explosion.png" id="3_apdkp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r824e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fqjoy"]
+radius = 36.0
+
+[sub_resource type="Curve" id="Curve_wer5i"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.456604), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_io3bj"]
+curve = SubResource("Curve_wer5i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fwxnr"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 75.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 10.0
+scale_curve = SubResource("CurveTexture_io3bj")
+
+[node name="Grenade" type="RigidBody2D"]
+top_level = true
+z_index = 11
+mass = 0.6
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("1_ydc01")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r824e")
+
+[node name="GrenadeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_dcjm1")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+position = Vector2(9.53674e-07, 1)
+scale = Vector2(2.25, 2.3125)
+monitoring = false
+
+[node name="ExplosionSprite" type="Sprite2D" parent="Area2D"]
+position = Vector2(1.11111, 0.216214)
+scale = Vector2(1.76389, 1.74324)
+texture = ExtResource("3_apdkp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_fqjoy")
+debug_color = Color(0.996112, 0, 0.192959, 0.42)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Area2D"]
+modulate = Color(0.67451, 0.196078, 0.196078, 1)
+z_index = -1
+emitting = false
+amount = 120
+process_material = SubResource("ParticleProcessMaterial_fwxnr")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+randomness = 0.3
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_explosion_site_entered"]

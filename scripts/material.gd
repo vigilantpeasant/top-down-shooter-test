@@ -8,9 +8,8 @@ func _ready():
 	material_label.text = str(GameState.material_count)
 
 func _on_body_entered(body):
-	var tween = create_tween()
 	if body.is_in_group("Player"):
-		tween.tween_property(self, "scale", Vector2(1.35, 1.35), 0.2)
+		create_tween().tween_property(self, "scale", Vector2(1.35, 1.35), 0.2)
 		GameState.material_count += 1
 		material_label.text = str(GameState.material_count)
 		await get_tree().create_timer(0.2).timeout

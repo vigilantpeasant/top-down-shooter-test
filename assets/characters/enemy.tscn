@@ -40,7 +40,7 @@ radius = 18.527
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w7gwb"]
 size = Vector2(232, 208)
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 z_index = 1
 script = ExtResource("1_rn1aw")
 bullet_scene = ExtResource("2_sdler")
@@ -67,13 +67,11 @@ shape = SubResource("RectangleShape2D_w7gwb")
 
 [node name="Healthbar" parent="." instance=ExtResource("5_rju02")]
 offset_left = -24.0
-offset_top = -32.0
+offset_top = -36.0
 offset_right = 24.0
-offset_bottom = -27.0
+offset_bottom = -31.0
 damage_fill_color = Color(1, 1, 1, 1)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-
-[editable path="Healthbar"]
