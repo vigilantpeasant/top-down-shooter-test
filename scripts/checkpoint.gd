@@ -1,6 +1,6 @@
 extends Area2D
-@onready var dialog = $"/root/Main/LevelStructure/GUI/HUD/Dialog" as Label
-@onready var GUI_animation = $"/root/Main/LevelStructure/AnimationPlayer"
+@onready var dialog = LevelStructure.get_node("GUI/HUD/Dialog") as Label
+@onready var GUI_animation = LevelStructure.get_node("AnimationPlayer")
 
 func _ready():
 	$Area2D/AnimatedSprite2D.play("offline")

@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://d17pcq5ft88gf"]
+[gd_scene load_steps=13 format=3 uid="uid://d17pcq5ft88gf"]
 
 [ext_resource type="PackedScene" uid="uid://djhesu854die4" path="res://assets/characters/player.tscn" id="1_5qs4a"]
-[ext_resource type="PackedScene" uid="uid://qk8sxlf0t24" path="res://level_structure.tscn" id="1_b7wk7"]
 [ext_resource type="Script" path="res://game.gd" id="1_eremu"]
 [ext_resource type="PackedScene" uid="uid://bvfrlmcau0mww" path="res://assets/characters/enemy.tscn" id="3_bt08n"]
 [ext_resource type="PackedScene" uid="uid://ce1pyen3yun3v" path="res://assets/box.tscn" id="5_awdh2"]
@@ -99,9 +98,6 @@ pattern_0 = SubResource("TileMapPattern_t835d")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_eremu")
-
-[node name="LevelStructure" parent="." instance=ExtResource("1_b7wk7")]
-z_index = 10
 
 [node name="Player" parent="." instance=ExtResource("1_5qs4a")]
 z_index = 10

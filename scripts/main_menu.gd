@@ -2,8 +2,10 @@ extends Control
 @onready var main_menu = %Main
 @onready var settings_menu = %"Settings Menu"
 @onready var animation_player = $AnimationPlayer
+@onready var gui = LevelStructure.get_node("GUI")
 
 func _ready():
+	gui.visible = false
 	animation_player.play("appear")
 	$Version.text = GameState.game_version
 

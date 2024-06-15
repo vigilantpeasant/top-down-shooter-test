@@ -1,5 +1,5 @@
 extends Area2D
-@onready var material_label = $"/root/Main/LevelStructure/GUI/HUD/MaterialPanel/MaterialLabel"
+@onready var material_label = LevelStructure.get_node("GUI/HUD/MaterialPanel/MaterialLabel")
 
 func _ready():
 	GameState.retry = false

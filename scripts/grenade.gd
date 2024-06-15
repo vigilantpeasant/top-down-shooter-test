@@ -43,3 +43,6 @@ func _on_body_entered(_body):
 func _on_explosion_site_entered(body):
 	if body.has_method("take_damage"):
 		body.take_damage(15, 35)
+
+func take_damage(_min_damage : int, _max_damage : int):
+	_create_explosion()

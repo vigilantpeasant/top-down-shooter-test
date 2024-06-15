@@ -26,7 +26,7 @@ scale_min = 5.0
 scale_max = 10.0
 scale_curve = SubResource("CurveTexture_io3bj")
 
-[node name="Grenade" type="RigidBody2D"]
+[node name="Grenade" type="RigidBody2D" groups=["One-Shot"]]
 top_level = true
 z_index = 11
 mass = 0.6

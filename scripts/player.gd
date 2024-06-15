@@ -1,18 +1,20 @@
 extends CharacterBody2D
 
-@onready var reload_bar = $"/root/Main/LevelStructure/GUI/HUD/AmmoPanel/Ammo/ReloadBar"
+@onready var reload_bar = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo/ReloadBar")
+@onready var weapon_bar = LevelStructure.get_node("GUI/HUD/Weapons/WeaponBar") as ProgressBar
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var marker_2d = $AnimatedSprite2D/Marker2D
-@onready var material_label = $"/root/Main/LevelStructure/GUI/HUD/MaterialPanel/MaterialLabel"
-@onready var ammo = $"/root/Main/LevelStructure/GUI/HUD/AmmoPanel/Ammo"
-@onready var health_bar = $"/root/Main/LevelStructure/GUI/HUD/HealthBar" as TextureProgressBar
-@onready var health_label = $"/root/Main/LevelStructure/GUI/HUD/HealthBar/HealthLabel" as Label
-@onready var damage_bar = $"/root/Main/LevelStructure/GUI/HUD/HealthBar/DamageBar" as ProgressBar
-@onready var game_over = $"/root/Main/LevelStructure/GUI/GameOver"
-@onready var game_ui = $/root/Main/LevelStructure/GUI/HUD
-@onready var dash_effect = $"/root/Main/LevelStructure/GUI/HUD/DashPanel/DashEffect"
-@onready var grenade_bar = $"/root/Main/LevelStructure/GUI/HUD/GrenadePanel/GrenadeBar"
-@onready var GUI_animation = $"/root/Main/LevelStructure/AnimationPlayer"
+@onready var material_label = LevelStructure.get_node("GUI/HUD/MaterialPanel/MaterialLabel")
+@onready var ammo = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo")
+@onready var health_bar = LevelStructure.get_node("GUI/HUD/HealthBar") as TextureProgressBar
+@onready var health_label = LevelStructure.get_node("GUI/HUD/HealthBar/HealthLabel") as Label
+@onready var damage_bar = LevelStructure.get_node("GUI/HUD/HealthBar/DamageBar") as ProgressBar
+@onready var game_over = LevelStructure.get_node("GUI/GameOver")
+@onready var game_ui = LevelStructure.get_node("GUI/HUD")
+@onready var dash_effect = LevelStructure.get_node("GUI/HUD/DashPanel/DashEffect")
+@onready var grenade_bar = LevelStructure.get_node("GUI/HUD/GrenadePanel/GrenadeBar")
+@onready var GUI_animation = LevelStructure.get_node("AnimationPlayer")
+@onready var gui = LevelStructure.get_node("GUI")
 
 const SPEED = 200
 const DASH_SPEED = 600
@@ -42,6 +44,9 @@ var is_alive = true
 var is_moving = false
 
 func _ready():
+	gui.visible = true
+	game_over.visible = false
+	game_ui.visible = true
 	animated_sprite_2d.play("idle")
 	health_label.text = str(health) + " / " + str(max_health)
 	update_ammo_text()
@@ -76,11 +81,13 @@ func _process(_delta):
 	if not is_alive:
 		return
 	
-	if Input.is_action_just_pressed("key1"):
-		GameState.selected_weapon = "plasma pistol"
-		update_ammo_text()
-	if Input.is_action_just_pressed("key2"):
+	if Input.is_action_just_pressed("key1") and not is_reloading:
 		GameState.selected_weapon = "plasma rifle"
+		weapon_bar.fill_mode = ProgressBar.FILL_BEGIN_TO_END
+		update_ammo_text()
+	if Input.is_action_just_pressed("key2") and not is_reloading:
+		GameState.selected_weapon = "plasma pistol"
+		weapon_bar.fill_mode = ProgressBar.FILL_END_TO_BEGIN
 		update_ammo_text()
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):

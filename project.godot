@@ -18,6 +18,7 @@ config/icon="res://assets/icon.svg"
 [autoload]
 
 GameState="*res://scripts/game_state.gd"
+LevelStructure="*res://level_structure.tscn"
 
 [display]
 
