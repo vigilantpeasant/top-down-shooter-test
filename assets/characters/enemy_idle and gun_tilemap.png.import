@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp56jw823vic0"
-path="res://.godot/imported/enemy_gun.png-743fdfc860a5c1e554e08edad728dffd.ctex"
+uid="uid://bcpv1hkjleqqx"
+path="res://.godot/imported/enemy_idle and gun_tilemap.png-20762d60cc2cdf64fb6619af24850e51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/enemy_gun.png"
-dest_files=["res://.godot/imported/enemy_gun.png-743fdfc860a5c1e554e08edad728dffd.ctex"]
+source_file="res://assets/characters/enemy_idle and gun_tilemap.png"
+dest_files=["res://.godot/imported/enemy_idle and gun_tilemap.png-20762d60cc2cdf64fb6619af24850e51.ctex"]
 
 [params]
 

@@ -8,11 +8,12 @@ extends CharacterBody2D
 @onready var collision_shape_2d = $CollisionShape2D
 
 const SPEED = 120
-const MISS_CHANGE = 0.5
-const MAX_MISS_CHANGE = 10.0
+const MISS_CHANCE = 0.5
+const MAX_MISS_CHANCE = 10.0
 const DETECTION_RANGE = 350.0
 const MAX_AMMO = 15
 
+var random_skin: int
 var health = 50
 var max_health = 50
 var player: Node2D
@@ -26,12 +27,14 @@ func _ready():
 	health_bar.value = health
 	damage_bar.max_value = max_health
 	damage_bar.value = health
-	
+	random_skin = randi_range(0, 3)
+	animated_sprite_2d.frame = random_skin
+
 	if health == max_health:
 		health_bar.visible = false
 		damage_bar.visible = false
 
-func take_damage(min_damage : int, max_damage : int):
+func take_damage(min_damage: int, max_damage: int):
 	health_bar.visible = true
 	damage_bar.visible = true
 	
@@ -49,6 +52,7 @@ func take_damage(min_damage : int, max_damage : int):
 	if health <= 0:
 		is_alive = false
 		animated_sprite_2d.play("dead")
+		animated_sprite_2d.frame = random_skin
 		collision_shape_2d.queue_free()
 		health_bar.visible = false
 		damage_bar.visible = false
@@ -62,6 +66,7 @@ func see_player():
 	player = find_player_node(get_tree().get_root())
 	if player != null:
 		animated_sprite_2d.play("weapon")
+		animated_sprite_2d.frame = random_skin
 
 func find_player_node(node):
 	if node.has_node("Player"):
@@ -82,6 +87,7 @@ func _update_damage_bar():
 func _on_area_2d_body_entered(body):
 	if body.name == "Player" and is_alive:
 		animated_sprite_2d.play("weapon")
+		animated_sprite_2d.frame = random_skin
 		player = body
 
 func _process(_delta):
@@ -115,10 +121,10 @@ func shoot():
 	if player.is_alive:
 		can_shoot = false
 		current_ammo -= 1
-		var miss = randf() < MISS_CHANGE
+		var miss = randf() < MISS_CHANCE
 		var angle_offset = 0.0
 		if miss:
-			angle_offset = deg_to_rad(randf_range(-MAX_MISS_CHANGE, MAX_MISS_CHANGE))
+			angle_offset = deg_to_rad(randf_range(-MAX_MISS_CHANCE, MAX_MISS_CHANCE))
 		var bullet = bullet_scene.instantiate() as Area2D
 		bullet.modulate = Color("GOLD")
 		var marker_position = $AnimatedSprite2D/Marker2D.global_position

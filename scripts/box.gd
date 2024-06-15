@@ -1,6 +1,13 @@
 extends StaticBody2D
 
+var health = 1
+
 func take_damage(_min_damage : int, _max_damage : int):
+	health -= 1
+	if health <= 0:
+		call_deferred("drop_material")
+		queue_free()
+		GameState.broken_boxes[global_position] = true
 	var blood = preload("res://assets/particle.tscn").instantiate() as GPUParticles2D
 	blood.modulate = Color(0.545098, 0.270588, 0.0745098, 1)
 	get_parent().add_child(blood)
@@ -8,10 +15,6 @@ func take_damage(_min_damage : int, _max_damage : int):
 	blood.global_position = global_position + direction * 10
 	blood.global_rotation = direction.angle()
 	blood.emitting = true
-	
-	call_deferred("drop_material")
-	queue_free()
-	GameState.broken_boxes[global_position] = true
 
 func drop_material():
 	var MaterialInstance = preload("res://assets/material.tscn").instantiate()

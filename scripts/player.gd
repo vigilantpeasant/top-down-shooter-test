@@ -18,11 +18,13 @@ const SPEED = 200
 const DASH_SPEED = 600
 const DASH_DURATION = 0.2
 const DASH_INTERVAL = 0.5
-const RATE_OF_FIRE = 0.2
+const RATE_OF_FIRE_RIFLE = 0.2
+const RATE_OF_FIRE_PISTOL = 0.3
 const GRENADE_INTERVAL = 2.0
 const MISS_CHANCE = 0.3
 const MAX_MISS_ANGLE = 5.0
-const MAX_AMMO = 20
+const MAX_RIFLE_AMMO = 20
+const MAX_PISTOL_AMMO = 10
 const RELOAD_TIME = 1.2
 
 var direction : Vector2
@@ -31,7 +33,8 @@ var max_health = 100
 var dash_timer = 0.0
 var dashing = false
 var can_dash = true
-var current_ammo = MAX_AMMO
+var current_rifle_ammo = MAX_RIFLE_AMMO
+var current_pistol_ammo = MAX_PISTOL_AMMO
 var can_shoot = true
 var is_reloading = false
 var can_throw_grenade = true
@@ -40,18 +43,17 @@ var is_moving = false
 
 func _ready():
 	animated_sprite_2d.play("idle")
-	ammo.text = str(current_ammo)
 	health_label.text = str(health) + " / " + str(max_health)
-	if health_bar:
-		health_bar.max_value = max_health
-		health_bar.value = health
-	if damage_bar:
-		damage_bar.max_value = max_health
-		damage_bar.value = health
-	if dash_effect:
-		dash_effect.max_value = 100
-		dash_effect.value = 0
+	update_ammo_text()
+	
+	health_bar.max_value = max_health
+	health_bar.value = health
+	damage_bar.max_value = max_health
+	damage_bar.value = health
+	dash_effect.max_value = 100
+	dash_effect.value = 0
 	reload_bar.visible = false
+	
 	update_health_bar_texture()
 
 func _physics_process(_delta):
@@ -61,7 +63,6 @@ func _physics_process(_delta):
 	look_at(get_global_mouse_position())
 	direction = Input.get_vector("left", "right", "up", "down")
 	is_moving = direction.length() > 0
-
 	if dashing:
 		velocity = direction * DASH_SPEED
 		dash_timer -= _delta
@@ -75,8 +76,19 @@ func _process(_delta):
 	if not is_alive:
 		return
 	
+	if Input.is_action_just_pressed("key1"):
+		GameState.selected_weapon = "plasma pistol"
+		update_ammo_text()
+	if Input.is_action_just_pressed("key2"):
+		GameState.selected_weapon = "plasma rifle"
+		update_ammo_text()
+	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		animated_sprite_2d.play("gun")
+		if GameState.selected_weapon == "plasma rifle":
+			animated_sprite_2d.frame = 0
+		elif GameState.selected_weapon == "plasma pistol":
+			animated_sprite_2d.frame = 1
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_shoot:
 			shoot()
 	else:
@@ -92,16 +104,27 @@ func _process(_delta):
 		can_dash = false
 		increment_dash_effect()
 
-	if Input.is_action_just_pressed("reload") and not is_reloading and current_ammo < MAX_AMMO:
-		is_reloading = true
-		can_shoot = false
-		reload_bar.visible = true
-		reload_bar.value = 0
-		ammo.text = "Re"
-		increment_reload_bar()
+	if Input.is_action_just_pressed("reload") and not is_reloading:
+		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo < MAX_RIFLE_AMMO) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo < MAX_PISTOL_AMMO):
+			is_reloading = true
+			can_shoot = false
+			reload_bar.visible = true
+			reload_bar.value = 0
+			ammo.text = "Re"
+			increment_reload_bar()
 	
 	if is_reloading:
 		animated_sprite_2d.play("gun")
+		if GameState.selected_weapon == "plasma rifle":
+			animated_sprite_2d.frame = 0
+		elif GameState.selected_weapon == "plasma pistol":
+			animated_sprite_2d.frame = 1
+
+func update_ammo_text():
+	if GameState.selected_weapon == "plasma rifle":
+		ammo.text = str(current_rifle_ammo)
+	elif GameState.selected_weapon == "plasma pistol":
+		ammo.text = str(current_pistol_ammo)
 
 func increment_dash_effect():
 	var step = 0.05
@@ -138,11 +161,16 @@ func throw_grenade():
 	await create_timer(2.0).timeout
 
 func shoot():
-	if current_ammo <= 0 or is_reloading or not is_alive:
+	if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo <= 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo <= 0) or is_reloading or not is_alive:
 		return
+	
 	can_shoot = false
-	current_ammo -= 1
-	ammo.text = str(current_ammo)
+	if GameState.selected_weapon == "plasma rifle":
+		current_rifle_ammo -= 1
+		ammo.text = str(current_rifle_ammo)
+	elif GameState.selected_weapon == "plasma pistol":
+		current_pistol_ammo -= 1
+		ammo.text = str(current_pistol_ammo)
 	
 	var miss_chance = MISS_CHANCE
 	if is_moving:
@@ -159,7 +187,12 @@ func shoot():
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
 	marker_2d.add_child(new_bullet)
 	
-	await create_timer(RATE_OF_FIRE).timeout
+	var rate_of_fire
+	if GameState.selected_weapon == "plasma rifle":
+		rate_of_fire = RATE_OF_FIRE_RIFLE
+	elif GameState.selected_weapon == "plasma pistol":
+		rate_of_fire = RATE_OF_FIRE_PISTOL
+	await create_timer(rate_of_fire).timeout
 	can_shoot = true
 
 func increment_reload_bar():
@@ -170,8 +203,12 @@ func increment_reload_bar():
 		var timer = create_timer(step)
 		timer.timeout.connect(increment_reload_bar)
 	else:
-		current_ammo = MAX_AMMO
-		ammo.text = str(current_ammo)
+		if GameState.selected_weapon == "plasma rifle":
+			current_rifle_ammo = MAX_RIFLE_AMMO
+		elif GameState.selected_weapon == "plasma pistol":
+			current_pistol_ammo = MAX_PISTOL_AMMO
+		update_ammo_text()
+		
 		reload_bar.visible = false
 		is_reloading = false
 		await create_timer(0.5).timeout

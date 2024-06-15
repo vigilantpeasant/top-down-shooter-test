@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnf5ntihuqcwv"
-path="res://.godot/imported/enemy_idle.png-872cf17105356716694618f43b9268c6.ctex"
+uid="uid://m4hupc3xuep"
+path="res://.godot/imported/alien_guns_tilemap.png-8d7f285aa4e4cad971f99efb4af2eda1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/enemy_idle.png"
-dest_files=["res://.godot/imported/enemy_idle.png-872cf17105356716694618f43b9268c6.ctex"]
+source_file="res://assets/characters/alien_guns_tilemap.png"
+dest_files=["res://.godot/imported/alien_guns_tilemap.png-8d7f285aa4e4cad971f99efb4af2eda1.ctex"]
 
 [params]
 

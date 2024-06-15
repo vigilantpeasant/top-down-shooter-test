@@ -20,6 +20,9 @@ func _on_body_entered(body):
 		if body.is_in_group("Player"):
 			body.take_damage(5, 10)
 		elif body.is_in_group("Enemy"):
-			body.take_damage(10, 15)
+			if GameState.selected_weapon == "plasma rifle":
+				body.take_damage(10, 15)
+			else:
+				body.take_damage(7, 13)
 		elif body.is_in_group("Box"):
 			body.take_damage(1, 1)
