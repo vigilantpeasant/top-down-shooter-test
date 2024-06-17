@@ -6,11 +6,12 @@ extends CharacterBody2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var navigation_agent = $NavigationAgent2D
 @onready var collision_shape_2d = $CollisionShape2D
+@onready var ray_cast_2d = $RayCast2D
 
 const SPEED = 120
 const MISS_CHANCE = 0.5
 const MAX_MISS_CHANCE = 10.0
-const DETECTION_RANGE = 350.0
+const DETECTION_RANGE = 200.0
 const MAX_AMMO = 15
 
 var random_skin: int
@@ -91,12 +92,17 @@ func _on_area_2d_body_entered(body):
 		player = body
 
 func _process(_delta):
-	if player != null and is_alive:
+	if player and is_alive:
 		var distance_to_player = global_position.distance_to(player.global_position)
-		if distance_to_player <= DETECTION_RANGE:
+		if distance_to_player <= DETECTION_RANGE and is_alive:
+			ray_cast_2d.look_at(player.global_position)
 			animated_sprite_2d.look_at(player.global_position)
-			if can_shoot:
-				shoot()
+			if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() is Player:
+				if can_shoot:
+					shoot()
+					ray_cast_2d.get_collider()
+			else:
+				follow_player()
 		else:
 			follow_player()
 	else:
@@ -104,14 +110,14 @@ func _process(_delta):
 
 func follow_player():
 	if player != null and is_alive:
-		navigation_agent.set_target_position(player.global_position)
+		navigation_agent.target_position = player.global_position
 		if navigation_agent.is_target_reached():
 			velocity = Vector2.ZERO
 		else:
 			velocity = navigation_agent.get_next_path_position() - global_position
 			velocity = velocity.normalized() * SPEED
-		move_and_slide()
-		animated_sprite_2d.look_at(player.global_position)
+			move_and_slide()
+			animated_sprite_2d.look_at(player.global_position)
 
 func shoot():
 	if current_ammo == 0:

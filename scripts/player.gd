@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @onready var reload_bar = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo/ReloadBar")
 @onready var weapon_bar = LevelStructure.get_node("GUI/HUD/Weapons/WeaponBar") as ProgressBar
@@ -83,11 +84,11 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("key1") and not is_reloading:
 		GameState.selected_weapon = "plasma rifle"
-		weapon_bar.fill_mode = ProgressBar.FILL_BEGIN_TO_END
+		weapon_bar.position = Vector2(0, 0)
 		update_ammo_text()
 	if Input.is_action_just_pressed("key2") and not is_reloading:
 		GameState.selected_weapon = "plasma pistol"
-		weapon_bar.fill_mode = ProgressBar.FILL_END_TO_BEGIN
+		weapon_bar.position = Vector2(65, 0)
 		update_ammo_text()
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):

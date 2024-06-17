@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://bvfrlmcau0mww"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_rn1aw"]
-[ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_sdler"]
+[ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_2vtus"]
 [ext_resource type="Texture2D" uid="uid://bsoaipbu8gyrd" path="res://assets/characters/enemy_dead_tilemap.png" id="3_0x68u"]
 [ext_resource type="Texture2D" uid="uid://bcpv1hkjleqqx" path="res://assets/characters/enemy_idle and gun_tilemap.png" id="4_54bno"]
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="5_rju02"]
@@ -95,8 +95,9 @@ size = Vector2(232, 208)
 
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 z_index = 1
+motion_mode = 1
 script = ExtResource("1_rn1aw")
-bullet_scene = ExtResource("2_sdler")
+bullet_scene = ExtResource("2_2vtus")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.5, 1.5)
@@ -106,6 +107,10 @@ autoplay = "idle"
 
 [node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
 position = Vector2(26.6667, 0)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+scale = Vector2(1.5, 1.5)
+target_position = Vector2(200, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8.5, 0)
@@ -119,6 +124,8 @@ position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_w7gwb")
 
 [node name="Healthbar" parent="." instance=ExtResource("5_rju02")]
+z_index = 1
+z_as_relative = false
 offset_left = -24.0
 offset_top = -36.0
 offset_right = 24.0
@@ -126,5 +133,6 @@ offset_bottom = -31.0
 damage_fill_color = Color(1, 1, 1, 1)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 200.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

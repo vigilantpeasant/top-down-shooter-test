@@ -6,11 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://m4hupc3xuep" path="res://assets/characters/alien_guns_tilemap.png" id="3_gtukw"]
 [ext_resource type="Texture2D" uid="uid://c7x1nnmesa5x1" path="res://assets/characters/alien_idle.png" id="3_ih1gb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g27ik"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ueu2h"]
 atlas = ExtResource("3_gtukw")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gceim"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_b07yo"]
 atlas = ExtResource("3_gtukw")
 region = Rect2(32, 0, 32, 32)
 
@@ -26,10 +26,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g27ik")
+"texture": SubResource("AtlasTexture_ueu2h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gceim")
+"texture": SubResource("AtlasTexture_b07yo")
 }],
 "loop": false,
 "name": &"gun",
@@ -71,7 +71,7 @@ position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_qbcvw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.1, 1.1)
+zoom = Vector2(1.15, 1.15)
 position_smoothing_enabled = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
