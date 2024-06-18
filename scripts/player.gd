@@ -100,7 +100,19 @@ func _process(_delta):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_shoot:
 			shoot()
 	else:
-		animated_sprite_2d.play("idle")
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			$MeleeAttack/CollisionShape2D.disabled = false
+			$MeleeAttack/Slash.visible = true
+			animated_sprite_2d.play("melee")
+			await get_tree().create_timer(0.1).timeout
+			if is_alive:
+				$MeleeAttack/CollisionShape2D.disabled = true
+				$MeleeAttack/Slash.visible = false
+				animated_sprite_2d.play("idle")
+		else:
+			$MeleeAttack/CollisionShape2D.disabled = true
+			$MeleeAttack/Slash.visible = false
+			animated_sprite_2d.play("idle")
 	
 	if Input.is_action_just_pressed("grenade") and can_throw_grenade:
 		throw_grenade()
@@ -128,6 +140,11 @@ func _process(_delta):
 		elif GameState.selected_weapon == "plasma pistol":
 			animated_sprite_2d.frame = 1
 
+func _on_melee_attack_body_entered(body):
+	print("melee attack")
+	if body.has_method("take_damage"):
+		body.take_damage(7, 20)
+
 func update_ammo_text():
 	if GameState.selected_weapon == "plasma rifle":
 		ammo.text = str(current_rifle_ammo)
@@ -139,8 +156,7 @@ func increment_dash_effect():
 	var increment_amount = 100.0 * step / DASH_INTERVAL
 	dash_effect.value += increment_amount
 	if dash_effect.value < 100:
-		var timer = create_timer(step)
-		timer.timeout.connect(increment_dash_effect)
+		get_tree().create_timer(step).timeout.connect(increment_dash_effect)
 	else:
 		dash_effect.value = 0
 		can_dash = true
@@ -150,8 +166,7 @@ func increment_grenade_bar():
 	var increment_amount = 100.0 * step / GRENADE_INTERVAL
 	grenade_bar.value += increment_amount
 	if grenade_bar.value < 100:
-		var timer = create_timer(step)
-		timer.timeout.connect(increment_grenade_bar)
+		get_tree().create_timer(step).timeout.connect(increment_grenade_bar)
 	else:
 		grenade_bar.value = 0
 		can_throw_grenade = true
@@ -166,7 +181,7 @@ func throw_grenade():
 	marker_2d.add_child(new_grenade)
 	grenade_bar.value = 0
 	increment_grenade_bar()
-	await create_timer(2.0).timeout
+	await get_tree().create_timer(2.0).timeout
 
 func shoot():
 	if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo <= 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo <= 0) or is_reloading or not is_alive:
@@ -200,7 +215,7 @@ func shoot():
 		rate_of_fire = RATE_OF_FIRE_RIFLE
 	elif GameState.selected_weapon == "plasma pistol":
 		rate_of_fire = RATE_OF_FIRE_PISTOL
-	await create_timer(rate_of_fire).timeout
+	await get_tree().create_timer(rate_of_fire).timeout
 	can_shoot = true
 
 func increment_reload_bar():
@@ -208,8 +223,7 @@ func increment_reload_bar():
 	var increment_amount = 100.0 * step / RELOAD_TIME
 	reload_bar.value += increment_amount
 	if reload_bar.value < 100:
-		var timer = create_timer(step)
-		timer.timeout.connect(increment_reload_bar)
+		get_tree().create_timer(step).timeout.connect(increment_reload_bar)
 	else:
 		if GameState.selected_weapon == "plasma rifle":
 			current_rifle_ammo = MAX_RIFLE_AMMO
@@ -219,7 +233,7 @@ func increment_reload_bar():
 		
 		reload_bar.visible = false
 		is_reloading = false
-		await create_timer(0.5).timeout
+		await get_tree().create_timer(0.5).timeout
 		can_shoot = true
 
 func take_damage(min_damage : int, max_damage : int):
@@ -237,7 +251,7 @@ func take_damage(min_damage : int, max_damage : int):
 	if health_bar:
 		health_bar.value = health
 		health_label.text = str(health) + " / " + str(max_health)
-	create_timer(0.5).timeout.connect(_update_damage_bar)
+	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
 	update_health_bar_texture()
 	
 	if health <= 0:
@@ -250,13 +264,16 @@ func take_damage(min_damage : int, max_damage : int):
 		game_over.visible = true
 		GUI_animation.play("game_over")
 		game_ui.visible = false
+	
+	await get_tree().create_timer(0.4).timeout
+	blood.queue_free()
 
 func _update_damage_bar():
 	if damage_bar and damage_bar.value > health_bar.value:
 		damage_bar.value -= 1
 		health_label.text = str(health) + " / " + str(max_health)
 		if damage_bar.value > health_bar.value:
-			create_timer(0.05).timeout.connect(_update_damage_bar)
+			get_tree().create_timer(0.05).timeout.connect(_update_damage_bar)
 
 func update_health_bar_texture():
 	if health > 75:
@@ -267,11 +284,3 @@ func update_health_bar_texture():
 		health_bar.texture_progress = preload("res://assets/progress3.png")
 	else:
 		health_bar.texture_progress = preload("res://assets/progress4.png")
-
-func create_timer(wait_time: float) -> Timer:
-	var timer = Timer.new()
-	timer.wait_time = wait_time
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
-	return timer

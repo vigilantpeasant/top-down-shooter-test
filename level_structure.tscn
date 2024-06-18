@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=34 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="1_2vt2k"]
 [ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
@@ -65,10 +65,6 @@ font = ExtResource("3_koyr6")
 font_size = 22
 
 [sub_resource type="LabelSettings" id="LabelSettings_1cw7j"]
-font = ExtResource("3_koyr6")
-font_size = 18
-
-[sub_resource type="LabelSettings" id="LabelSettings_8nvib"]
 font = ExtResource("3_koyr6")
 font_size = 18
 
@@ -211,28 +207,28 @@ grow_vertical = 0
 
 [node name="MaterialPanel" type="Panel" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = 459.0
-offset_top = -635.0
-offset_right = 561.0
-offset_bottom = -595.0
+offset_left = -246.0
+offset_top = -49.0
+offset_right = -144.0
+offset_bottom = -9.0
 
 [node name="Materials" type="TextureRect" parent="GUI/HUD/MaterialPanel"]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 6.0
-offset_right = 99.0
+offset_left = 50.0
+offset_top = 4.0
+offset_right = 100.0
 offset_bottom = 36.0
 texture = ExtResource("3_tkjuy")
 
 [node name="MaterialLabel" type="Label" parent="GUI/HUD/MaterialPanel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 6.67363
-anchor_top = 0.391975
+anchor_left = 6.64422
+anchor_top = 0.316975
 anchor_right = 6.64422
 anchor_bottom = 0.316975
-offset_left = -680.71
-offset_top = -15.679
+offset_left = -677.71
+offset_top = -12.679
 offset_right = -623.71
 offset_bottom = 27.321
 grow_horizontal = 2
@@ -241,14 +237,13 @@ text = "0"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="AmmoPanel" type="Panel" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = 459.0
-offset_top = -590.0
-offset_right = 561.0
-offset_bottom = -550.0
+offset_left = 117.0
+offset_top = -49.0
+offset_right = 219.0
+offset_bottom = -9.0
 
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/AmmoPanel"]
 layout_mode = 0
@@ -261,20 +256,19 @@ texture = ExtResource("9_6uijm")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 4.66667
-anchor_top = 1.95839
+anchor_top = 1.83339
 anchor_right = 4.66667
 anchor_bottom = 1.83339
 offset_left = -476.0
-offset_top = -78.3354
+offset_top = -73.3356
 offset_right = -417.0
-offset_bottom = -33.3354
+offset_bottom = -33.3356
 grow_horizontal = 2
 grow_vertical = 0
 text = "20"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
 
 [node name="ReloadBar" type="ProgressBar" parent="GUI/HUD/AmmoPanel/Ammo"]
 z_index = -1
@@ -282,18 +276,17 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.729
 anchor_bottom = 1.0
-offset_top = 5.0
-offset_right = 1.989
+offset_right = -0.0110016
 theme_override_styles/background = SubResource("StyleBoxEmpty_2to5h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_okv5l")
 show_percentage = false
 
 [node name="Weapons" type="Panel" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = 433.0
-offset_top = -121.0
-offset_right = 563.0
-offset_bottom = -69.0
+offset_left = 438.0
+offset_top = -157.0
+offset_right = 568.0
+offset_bottom = -105.0
 
 [node name="WeaponBar" type="ProgressBar" parent="GUI/HUD/Weapons"]
 z_index = -1
@@ -314,10 +307,10 @@ texture = ExtResource("13_wckfx")
 
 [node name="DashPanel" type="Panel" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = 501.0
-offset_top = -66.0
-offset_right = 564.0
-offset_bottom = -14.0
+offset_left = 506.0
+offset_top = -80.0
+offset_right = 569.0
+offset_bottom = -28.0
 
 [node name="DashEffect" type="ProgressBar" parent="GUI/HUD/DashPanel"]
 z_index = -1
@@ -346,10 +339,10 @@ texture = ExtResource("5_3162r")
 
 [node name="GrenadePanel" type="Panel" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = 433.0
-offset_top = -66.0
-offset_right = 496.0
-offset_bottom = -14.0
+offset_left = 438.0
+offset_top = -80.0
+offset_right = 501.0
+offset_bottom = -28.0
 
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/GrenadePanel"]
 layout_mode = 0
@@ -398,62 +391,28 @@ grow_horizontal = 2
 
 [node name="TwoButtonPrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 474.0
-offset_right = 28.0
-offset_bottom = 498.0
+offset_left = 1098.0
+offset_top = 543.0
+offset_right = 1121.0
+offset_bottom = 567.0
 scale = Vector2(1.23913, 1)
 texture = ExtResource("9_k3732")
 
-[node name="infoPistol" type="Label" parent="GUI/HUD/Button Prompts"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 37.0
-offset_top = 473.0
-offset_right = 150.0
-offset_bottom = 504.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "EQUIP PISTOL"
-label_settings = SubResource("LabelSettings_1cw7j")
-vertical_alignment = 1
-
 [node name="OneButtonPrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 503.0
-offset_right = 28.0
-offset_bottom = 527.0
+offset_left = 1030.0
+offset_top = 543.0
+offset_right = 1053.0
+offset_bottom = 567.0
 scale = Vector2(1.23913, 1)
 texture = ExtResource("10_7655w")
 
-[node name="infoRifle" type="Label" parent="GUI/HUD/Button Prompts"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 37.0
-offset_top = 503.0
-offset_right = 140.0
-offset_bottom = 534.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "EQUIP RIFLE"
-label_settings = SubResource("LabelSettings_1cw7j")
-vertical_alignment = 1
-
 [node name="RightMousePrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 532.0
-offset_right = 29.0
-offset_bottom = 552.0
+offset_left = 7.0
+offset_top = 592.0
+offset_right = 31.0
+offset_bottom = 612.0
 scale = Vector2(1.04167, 1.15)
 texture = ExtResource("6_onmlq")
 
@@ -464,10 +423,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 36.0
-offset_top = 534.0
-offset_right = 47.0
-offset_bottom = 557.0
+offset_left = 38.0
+offset_top = 594.0
+offset_right = 49.0
+offset_bottom = 617.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "+"
@@ -476,10 +435,10 @@ vertical_alignment = 1
 
 [node name="LeftMousePrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 532.0
-offset_right = 76.0
-offset_bottom = 552.0
+offset_left = 54.0
+offset_top = 592.0
+offset_right = 78.0
+offset_bottom = 612.0
 scale = Vector2(1.04167, 1.15)
 texture = ExtResource("7_8igx5")
 
@@ -490,10 +449,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 81.0
-offset_top = 531.0
-offset_right = 161.0
-offset_bottom = 562.0
+offset_left = 85.0
+offset_top = 594.0
+offset_right = 138.0
+offset_bottom = 617.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "SHOOT"
@@ -502,37 +461,19 @@ vertical_alignment = 1
 
 [node name="GrenadeButtonPrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 562.0
-offset_right = 28.0
-offset_bottom = 586.0
+offset_left = 1030.0
+offset_top = 620.0
+offset_right = 1053.0
+offset_bottom = 644.0
 scale = Vector2(1.23913, 1)
 texture = ExtResource("9_j1lkc")
 
-[node name="infoGrenade" type="Label" parent="GUI/HUD/Button Prompts"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 36.5
-offset_top = 559.0
-offset_right = 169.5
-offset_bottom = 590.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "THROW GRENADE"
-label_settings = SubResource("LabelSettings_1cw7j")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ReloadButtonPrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 4.99999
-offset_top = 589.0
-offset_right = 28.0
-offset_bottom = 613.0
+offset_left = 6.0
+offset_top = 619.0
+offset_right = 29.0
+offset_bottom = 643.0
 rotation = -0.00104384
 scale = Vector2(1.23913, 1)
 texture = ExtResource("5_b8rtg")
@@ -544,10 +485,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 30.0
-offset_top = 585.0
-offset_right = 110.0
-offset_bottom = 616.0
+offset_left = 38.0
+offset_top = 620.0
+offset_right = 102.0
+offset_bottom = 643.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "RELOAD"
@@ -557,30 +498,12 @@ vertical_alignment = 1
 
 [node name="SpaceButtonPrompt" type="TextureRect" parent="GUI/HUD/Button Prompts"]
 layout_mode = 0
-offset_left = 5.00001
-offset_top = 615.0
-offset_right = 48.0
-offset_bottom = 639.0
+offset_left = 1085.0
+offset_top = 620.0
+offset_right = 1128.0
+offset_bottom = 644.0
 scale = Vector2(1.3056, 1.055)
 texture = ExtResource("10_bd0cv")
-
-[node name="infoDash" type="Label" parent="GUI/HUD/Button Prompts"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 48.0
-offset_top = 615.0
-offset_right = 128.0
-offset_bottom = 646.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "DASH"
-label_settings = SubResource("LabelSettings_8nvib")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Dialog" type="Label" parent="GUI/HUD"]
 layout_mode = 0

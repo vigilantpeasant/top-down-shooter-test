@@ -32,6 +32,7 @@ func _create_explosion():
 	$Area2D.visible = true
 	$Area2D.monitoring = true
 	$Area2D/GPUParticles2D.emitting = true
+	
 	await get_tree().create_timer(0.2).timeout
 	create_tween().tween_property($Area2D, "modulate", Color.TRANSPARENT, 1.0)
 	$Area2D.monitoring = false

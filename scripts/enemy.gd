@@ -62,6 +62,9 @@ func take_damage(min_damage: int, max_damage: int):
 		queue_free()
 	else:
 		see_player()
+	
+	await get_tree().create_timer(0.4).timeout
+	blood.queue_free()
 
 func see_player():
 	player = find_player_node(get_tree().get_root())
