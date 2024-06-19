@@ -58,8 +58,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dhue7"]
-size = Vector2(25, 40)
+[sub_resource type="CircleShape2D" id="CircleShape2D_651dp"]
+radius = 22.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qbcvw"]
 size = Vector2(24, 32)
@@ -88,8 +88,8 @@ collision_layer = 12
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeAttack"]
-position = Vector2(20.5, 0)
-shape = SubResource("RectangleShape2D_dhue7")
+position = Vector2(18, 0)
+shape = SubResource("CircleShape2D_651dp")
 disabled = true
 debug_color = Color(0.828015, 0.384444, 0.25326, 0.42)
 

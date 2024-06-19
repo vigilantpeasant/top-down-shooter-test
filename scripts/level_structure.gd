@@ -14,11 +14,13 @@ func _input(event):
 			$GUI/HUD/Weapons.position = Vector2(438, -157)
 			$GUI/HUD/DashPanel.position = Vector2(506, -80)
 			$GUI/HUD/GrenadePanel.position = Vector2(438, -80)
+			$GUI/HUD/MeleePanel.position = Vector2(371, -80)
 		else:
 			$"GUI/HUD/Button Prompts".visible = false
 			$GUI/HUD/Weapons.position = Vector2(438, -116)
 			$GUI/HUD/DashPanel.position = Vector2(506, -58)
 			$GUI/HUD/GrenadePanel.position = Vector2(438, -58)
+			$GUI/HUD/MeleePanel.position = Vector2(371, -58)
 
 func _on_retry_button_down():
 	GameState.retry = false

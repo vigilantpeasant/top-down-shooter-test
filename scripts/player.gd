@@ -14,6 +14,7 @@ class_name Player
 @onready var game_ui = LevelStructure.get_node("GUI/HUD")
 @onready var dash_effect = LevelStructure.get_node("GUI/HUD/DashPanel/DashEffect")
 @onready var grenade_bar = LevelStructure.get_node("GUI/HUD/GrenadePanel/GrenadeBar")
+@onready var melee_bar = LevelStructure.get_node("GUI/HUD/MeleePanel/MeleeBar")
 @onready var GUI_animation = LevelStructure.get_node("AnimationPlayer")
 @onready var gui = LevelStructure.get_node("GUI")
 
@@ -24,6 +25,7 @@ const DASH_INTERVAL = 0.5
 const RATE_OF_FIRE_RIFLE = 0.2
 const RATE_OF_FIRE_PISTOL = 0.3
 const GRENADE_INTERVAL = 2.0
+const MELEE_INTERVAL = 0.3
 const MISS_CHANCE = 0.3
 const MAX_MISS_ANGLE = 5.0
 const MAX_RIFLE_AMMO = 20
@@ -39,6 +41,7 @@ var can_dash = true
 var current_rifle_ammo = MAX_RIFLE_AMMO
 var current_pistol_ammo = MAX_PISTOL_AMMO
 var can_shoot = true
+var can_melee = true
 var is_reloading = false
 var can_throw_grenade = true
 var is_alive = true
@@ -100,24 +103,15 @@ func _process(_delta):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_shoot:
 			shoot()
 	else:
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			$MeleeAttack/CollisionShape2D.disabled = false
-			$MeleeAttack/Slash.visible = true
-			animated_sprite_2d.play("melee")
-			await get_tree().create_timer(0.1).timeout
-			if is_alive:
-				$MeleeAttack/CollisionShape2D.disabled = true
-				$MeleeAttack/Slash.visible = false
-				animated_sprite_2d.play("idle")
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_melee:
+			melee_attack()
 		else:
-			$MeleeAttack/CollisionShape2D.disabled = true
-			$MeleeAttack/Slash.visible = false
 			animated_sprite_2d.play("idle")
 	
 	if Input.is_action_just_pressed("grenade") and can_throw_grenade:
 		throw_grenade()
 	
-	if Input.is_action_just_pressed("dash") and can_dash:
+	if Input.is_action_just_pressed("dash") and can_dash and is_moving:
 		dashing = true
 		dash_timer = DASH_DURATION
 		dash_effect.value = 0
@@ -141,15 +135,41 @@ func _process(_delta):
 			animated_sprite_2d.frame = 1
 
 func _on_melee_attack_body_entered(body):
-	print("melee attack")
 	if body.has_method("take_damage"):
 		body.take_damage(7, 20)
+
+func melee_attack():
+	if not is_alive:
+		return
+	can_melee = false
+	
+	$MeleeAttack/CollisionShape2D.disabled = false
+	$MeleeAttack/Slash.visible = true
+	animated_sprite_2d.play("melee")
+	await get_tree().create_timer(0.1).timeout
+	$MeleeAttack/CollisionShape2D.disabled = true
+	$MeleeAttack/Slash.visible = false
+	animated_sprite_2d.play("idle")
+	
+	melee_bar.value = 0
+	increment_melee_effect()
+	await get_tree().create_timer(MELEE_INTERVAL).timeout
 
 func update_ammo_text():
 	if GameState.selected_weapon == "plasma rifle":
 		ammo.text = str(current_rifle_ammo)
 	elif GameState.selected_weapon == "plasma pistol":
 		ammo.text = str(current_pistol_ammo)
+
+func increment_melee_effect():
+	var step = 0.05
+	var increment_amount = 100.0 * step / MELEE_INTERVAL
+	melee_bar.value += increment_amount
+	if melee_bar.value < 100:
+		get_tree().create_timer(step).timeout.connect(increment_melee_effect)
+	else:
+		melee_bar.value = 0
+		can_melee = true
 
 func increment_dash_effect():
 	var step = 0.05
@@ -181,7 +201,7 @@ func throw_grenade():
 	marker_2d.add_child(new_grenade)
 	grenade_bar.value = 0
 	increment_grenade_bar()
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(GRENADE_INTERVAL).timeout
 
 func shoot():
 	if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo <= 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo <= 0) or is_reloading or not is_alive:
@@ -269,11 +289,10 @@ func take_damage(min_damage : int, max_damage : int):
 	blood.queue_free()
 
 func _update_damage_bar():
-	if damage_bar and damage_bar.value > health_bar.value:
+	while damage_bar.value > health_bar.value:
 		damage_bar.value -= 1
 		health_label.text = str(health) + " / " + str(max_health)
-		if damage_bar.value > health_bar.value:
-			get_tree().create_timer(0.05).timeout.connect(_update_damage_bar)
+		await get_tree().create_timer(0.05).timeout
 
 func update_health_bar_texture():
 	if health > 75:
