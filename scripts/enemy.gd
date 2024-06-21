@@ -1,25 +1,25 @@
 extends CharacterBody2D
 
 @export var bullet_scene: PackedScene
-@onready var health_bar = $Healthbar
-@onready var damage_bar = $Healthbar/DamageBar
+@onready var health_bar = $HealthBar
+@onready var damage_bar = $HealthBar/DamageBar
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var navigation_agent = $NavigationAgent2D
 @onready var collision_shape_2d = $CollisionShape2D
 @onready var ray_cast_2d = $RayCast2D
 
-const SPEED = 120
-const MISS_CHANCE = 0.5
-const MAX_MISS_CHANCE = 10.0
-const DETECTION_RANGE = 200.0
-const MAX_AMMO = 15
+@export var speed = 120
+@export var miss_chance = 0.5
+@export var max_miss_chance = 10.0
+@export var max_ammo = 15
+@export var rate_of_fire = 0.8
+@export var max_health = 50
+@export var detection_range = 200.0
 
 var random_skin: int
-var health = 50
-var max_health = 50
 var player: Node2D
-var rate_of_fire = 0.8
-var current_ammo = MAX_AMMO
+var health = max_health
+var current_ammo = max_ammo
 var can_shoot = true
 var is_alive = true
 
@@ -30,7 +30,7 @@ func _ready():
 	damage_bar.value = health
 	random_skin = randi_range(0, 3)
 	animated_sprite_2d.frame = random_skin
-
+	
 	if health == max_health:
 		health_bar.visible = false
 		damage_bar.visible = false
@@ -97,7 +97,7 @@ func _on_area_2d_body_entered(body):
 func _process(_delta):
 	if player and is_alive:
 		var distance_to_player = global_position.distance_to(player.global_position)
-		if distance_to_player <= DETECTION_RANGE and is_alive:
+		if distance_to_player <= detection_range and is_alive:
 			ray_cast_2d.look_at(player.global_position)
 			animated_sprite_2d.look_at(player.global_position)
 			if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() is Player:
@@ -118,7 +118,7 @@ func follow_player():
 			velocity = Vector2.ZERO
 		else:
 			velocity = navigation_agent.get_next_path_position() - global_position
-			velocity = velocity.normalized() * SPEED
+			velocity = velocity.normalized() * speed
 			move_and_slide()
 			animated_sprite_2d.look_at(player.global_position)
 
@@ -130,10 +130,10 @@ func shoot():
 	if player.is_alive:
 		can_shoot = false
 		current_ammo -= 1
-		var miss = randf() < MISS_CHANCE
+		var miss = randf() < miss_chance
 		var angle_offset = 0.0
 		if miss:
-			angle_offset = deg_to_rad(randf_range(-MAX_MISS_CHANCE, MAX_MISS_CHANCE))
+			angle_offset = deg_to_rad(randf_range(-max_miss_chance, max_miss_chance))
 		var bullet = bullet_scene.instantiate() as Area2D
 		bullet.modulate = Color("GOLD")
 		var marker_position = $AnimatedSprite2D/Marker2D.global_position
@@ -146,5 +146,5 @@ func shoot():
 func reload():
 	can_shoot = false
 	await get_tree().create_timer(1.5).timeout
-	current_ammo = MAX_AMMO
+	current_ammo = max_ammo
 	can_shoot = true

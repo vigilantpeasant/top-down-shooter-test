@@ -1,0 +1,137 @@
+[gd_scene load_steps=18 format=3 uid="uid://yygou0kt3ots"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_y47ob"]
+[ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_vddqb"]
+[ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="3_aivp1"]
+[ext_resource type="Texture2D" uid="uid://bsoaipbu8gyrd" path="res://assets/characters/enemy_dead_tilemap.png" id="4_nmwjv"]
+[ext_resource type="Texture2D" uid="uid://dua8if4xkcfcv" path="res://assets/characters/enemy2_idle and gun_tilemap.png" id="5_6kw8g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vsxo"]
+atlas = ExtResource("4_nmwjv")
+region = Rect2(0, 0, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tah72"]
+atlas = ExtResource("4_nmwjv")
+region = Rect2(0, 32, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnbsi"]
+atlas = ExtResource("4_nmwjv")
+region = Rect2(0, 64, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvevv"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kqya"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_62bo5"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0v3o"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmr6g"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3rc5"]
+atlas = ExtResource("5_6kw8g")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1witx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vsxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tah72")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnbsi")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvevv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4kqya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_62bo5")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0v3o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmr6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3rc5")
+}],
+"loop": false,
+"name": &"weapon",
+"speed": 0.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o7fjd"]
+radius = 18.3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_krtjo"]
+size = Vector2(423, 402)
+
+[node name="Enemy2" type="CharacterBody2D" groups=["Enemy"]]
+script = ExtResource("1_y47ob")
+bullet_scene = ExtResource("2_vddqb")
+speed = 50
+max_ammo = 50
+rate_of_fire = 0.4
+max_health = 30
+detection_range = 400.0
+
+[node name="HealthBar" parent="." instance=ExtResource("3_aivp1")]
+offset_left = -24.0
+offset_top = -36.0
+offset_right = 24.0
+offset_bottom = -31.0
+damage_fill_color = Color(1, 1, 1, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_1witx")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
+position = Vector2(42, 0)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(400, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.5, 0)
+shape = SubResource("CircleShape2D_o7fjd")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_krtjo")
+debug_color = Color(0.984467, 0.0565883, 0.282835, 0.42)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

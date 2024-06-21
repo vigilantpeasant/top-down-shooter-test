@@ -1,10 +1,11 @@
 extends CharacterBody2D
 class_name Player
 
-@onready var reload_bar = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo/ReloadBar")
-@onready var weapon_bar = LevelStructure.get_node("GUI/HUD/Weapons/WeaponBar") as ProgressBar
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var marker_2d = $AnimatedSprite2D/Marker2D
+@onready var camera = $Camera2D
+@onready var reload_bar = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo/ReloadBar")
+@onready var weapon_bar = LevelStructure.get_node("GUI/HUD/Weapons/WeaponBar") as ProgressBar
 @onready var material_label = LevelStructure.get_node("GUI/HUD/MaterialPanel/MaterialLabel")
 @onready var ammo = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo")
 @onready var health_bar = LevelStructure.get_node("GUI/HUD/HealthBar") as TextureProgressBar
@@ -46,6 +47,8 @@ var is_reloading = false
 var can_throw_grenade = true
 var is_alive = true
 var is_moving = false
+var screen_shake_amount = 1.0
+var screen_shake_duration = 0.1
 
 func _ready():
 	gui.visible = true
@@ -103,7 +106,7 @@ func _process(_delta):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_shoot:
 			shoot()
 	else:
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_melee:
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_melee and not is_reloading:
 			melee_attack()
 		else:
 			animated_sprite_2d.play("idle")
@@ -211,9 +214,11 @@ func shoot():
 	if GameState.selected_weapon == "plasma rifle":
 		current_rifle_ammo -= 1
 		ammo.text = str(current_rifle_ammo)
+		screen_shake_amount = 0.2
 	elif GameState.selected_weapon == "plasma pistol":
 		current_pistol_ammo -= 1
 		ammo.text = str(current_pistol_ammo)
+		screen_shake_amount = 0.4
 	
 	var miss_chance = MISS_CHANCE
 	if is_moving:
@@ -235,8 +240,20 @@ func shoot():
 		rate_of_fire = RATE_OF_FIRE_RIFLE
 	elif GameState.selected_weapon == "plasma pistol":
 		rate_of_fire = RATE_OF_FIRE_PISTOL
+	
+	screen_shake(screen_shake_amount, screen_shake_duration)
+
 	await get_tree().create_timer(rate_of_fire).timeout
 	can_shoot = true
+
+func screen_shake(amount, duration):
+	var shake_timer = duration
+	while shake_timer > 0:
+		var offset = Vector2(randf_range(-amount, amount), randf_range(-amount, amount))
+		camera.offset = offset
+		shake_timer -= 0.05
+		await get_tree().create_timer(0.05).timeout
+	camera.offset = Vector2.ZERO
 
 func increment_reload_bar():
 	var step = 0.05

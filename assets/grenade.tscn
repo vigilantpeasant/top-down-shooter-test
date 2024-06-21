@@ -1,16 +1,30 @@
-[gd_scene load_steps=9 format=3 uid="uid://dj4vbw8xwa568"]
+[gd_scene load_steps=13 format=3 uid="uid://dj4vbw8xwa568"]
 
 [ext_resource type="Texture2D" uid="uid://cpch7jp2n221c" path="res://assets/grenade.png" id="1_dcjm1"]
 [ext_resource type="Script" path="res://scripts/grenade.gd" id="1_ydc01"]
-[ext_resource type="Texture2D" uid="uid://xpylrhxjhnn3" path="res://assets/explosion.png" id="3_apdkp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r824e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fqjoy"]
-radius = 36.0
+radius = 34.6775
+
+[sub_resource type="Curve" id="Curve_i5fjb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.366038), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lbq1i"]
+curve = SubResource("Curve_i5fjb")
+
+[sub_resource type="Curve" id="Curve_aco8w"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_yaqcm"]
+curve = SubResource("Curve_aco8w")
 
 [sub_resource type="Curve" id="Curve_wer5i"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.456604), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.215094), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_io3bj"]
@@ -19,12 +33,20 @@ curve = SubResource("Curve_wer5i")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fwxnr"]
 particle_flag_disable_z = true
 spread = 180.0
-initial_velocity_min = 75.0
+flatness = 0.5
+initial_velocity_min = 200.0
 initial_velocity_max = 200.0
-gravity = Vector3(0, 0, 0)
-scale_min = 5.0
-scale_max = 10.0
+damping_min = 200.0
+damping_max = 200.0
+damping_curve = SubResource("CurveTexture_yaqcm")
+scale_max = 2.5
 scale_curve = SubResource("CurveTexture_io3bj")
+alpha_curve = SubResource("CurveTexture_lbq1i")
+turbulence_influence_min = 0.2
+turbulence_influence_max = 0.2
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_uioaj"]
+load_path = "res://.godot/imported/explosion.png-3d70b655f829d2ec362997bd3be8e3ae.ctex"
 
 [node name="Grenade" type="RigidBody2D" groups=["One-Shot"]]
 top_level = true
@@ -47,24 +69,18 @@ position = Vector2(9.53674e-07, 1)
 scale = Vector2(2.25, 2.3125)
 monitoring = false
 
-[node name="ExplosionSprite" type="Sprite2D" parent="Area2D"]
-position = Vector2(1.11111, 0.216214)
-scale = Vector2(1.76389, 1.74324)
-texture = ExtResource("3_apdkp")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_fqjoy")
 debug_color = Color(0.996112, 0, 0.192959, 0.42)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Area2D"]
-modulate = Color(0.67451, 0.196078, 0.196078, 1)
 z_index = -1
 emitting = false
-amount = 120
+amount = 80
 process_material = SubResource("ParticleProcessMaterial_fwxnr")
-lifetime = 0.3
+texture = SubResource("CompressedTexture2D_uioaj")
 one_shot = true
 explosiveness = 1.0
-randomness = 0.3
+randomness = 0.5
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_explosion_site_entered"]

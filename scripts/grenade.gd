@@ -25,7 +25,6 @@ func _physics_process(delta):
 
 func _create_explosion():
 	GRENADE_SPEED = 0
-	await get_tree().create_timer(0.1).timeout
 	$GrenadeSprite.visible = false
 	$CollisionShape2D.set_deferred("disabled", true)
 	sleeping = true
@@ -34,9 +33,9 @@ func _create_explosion():
 	$Area2D/GPUParticles2D.emitting = true
 	
 	await get_tree().create_timer(0.2).timeout
-	create_tween().tween_property($Area2D, "modulate", Color.TRANSPARENT, 1.0)
+	create_tween().tween_property($Area2D, "modulate", Color.TRANSPARENT, 0.5)
 	$Area2D.monitoring = false
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(0.5).timeout
 	queue_free()
 
 func _on_body_entered(_body):

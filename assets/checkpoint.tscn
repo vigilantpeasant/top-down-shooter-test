@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ofwadpbv4rpq"]
+[gd_scene load_steps=6 format=3 uid="uid://ofwadpbv4rpq"]
 
 [ext_resource type="Script" path="res://scripts/checkpoint.gd" id="1_2dyqy"]
 [ext_resource type="Texture2D" uid="uid://cwetgem2caurs" path="res://assets/checkpoint.png" id="2_b8plh"]
@@ -26,9 +26,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hwdv"]
-size = Vector2(32, 64)
-
 [node name="Checkpoint" type="Area2D"]
 z_index = -1
 collision_layer = 0
@@ -47,7 +44,7 @@ sprite_frames = SubResource("SpriteFrames_3vbf1")
 animation = &"offline"
 autoplay = "offline"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_1hwdv")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-16, -32, 16, -32, 16, -24, 32, -24, 32, 32, -32, 32, -32, -8, -16, -8)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

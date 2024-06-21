@@ -1,5 +1,5 @@
 extends Node
-var game_version = "v0.6"
+var game_version = "v0.7"
 var retry = false
 var material_count = 0
 var last_pos = null

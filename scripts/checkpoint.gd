@@ -6,7 +6,7 @@ func _ready():
 	$Area2D/AnimatedSprite2D.play("offline")
 
 func _on_body_entered(_body):
-	GameState.last_pos = global_position
+	GameState.last_pos = global_position - Vector2(50,0)
 	GameState.checkpoint_material_count = GameState.material_count
 	$Area2D/AnimatedSprite2D.play("online")
 	gui_animation.play("dialog")

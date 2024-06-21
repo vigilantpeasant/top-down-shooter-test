@@ -101,6 +101,14 @@ motion_mode = 1
 script = ExtResource("1_rn1aw")
 bullet_scene = ExtResource("2_2vtus")
 
+[node name="HealthBar" parent="." instance=ExtResource("5_rju02")]
+z_index = 11
+offset_left = -24.0
+offset_top = -36.0
+offset_right = 24.0
+offset_bottom = -31.0
+damage_fill_color = Color(1, 1, 1, 1)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_xw4tw")
@@ -108,7 +116,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Marker2D" type="Marker2D" parent="AnimatedSprite2D"]
-position = Vector2(42.6667, 0)
+position = Vector2(42, 0)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 scale = Vector2(1.5, 1.5)
@@ -122,16 +130,7 @@ shape = SubResource("CircleShape2D_ovfcm")
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_w7gwb")
-
-[node name="Healthbar" parent="." instance=ExtResource("5_rju02")]
-z_index = 11
-offset_left = -24.0
-offset_top = -36.0
-offset_right = 24.0
-offset_bottom = -31.0
-damage_fill_color = Color(1, 1, 1, 1)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_max_distance = 200.0

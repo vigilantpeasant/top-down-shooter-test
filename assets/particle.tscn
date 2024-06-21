@@ -1,4 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cedwuex87fh7j"]
+[gd_scene load_steps=6 format=3 uid="uid://cedwuex87fh7j"]
+
+[sub_resource type="Curve" id="Curve_ndssw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xyuoc"]
+curve = SubResource("Curve_ndssw")
 
 [sub_resource type="Curve" id="Curve_yfetu"]
 _data = [Vector2(0, 0.516981), 0.0, 0.0, 0, 0, Vector2(0.331818, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.486792), 0.0, 0.0, 0, 0]
@@ -17,11 +24,12 @@ damping_max = 600.0
 scale_min = 5.0
 scale_max = 10.0
 scale_curve = SubResource("CurveTexture_qh15x")
+alpha_curve = SubResource("CurveTexture_xyuoc")
 
 [node name="Particle" type="GPUParticles2D"]
 emitting = false
 process_material = SubResource("ParticleProcessMaterial_5qcb2")
-lifetime = 0.2
+lifetime = 0.3
 one_shot = true
 explosiveness = 0.6
 randomness = 0.2
