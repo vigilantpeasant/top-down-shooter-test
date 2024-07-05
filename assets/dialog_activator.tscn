@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://3wpnxgcf8tw2"]
+
+[ext_resource type="Script" path="res://scripts/DialogActivator.gd" id="1_ghae0"]
+
+[node name="DialogActivator" type="Area2D"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("1_ghae0")
+
+[connection signal="animation_ended" from="." to="." method="_on_animation_ended"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

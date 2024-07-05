@@ -102,7 +102,6 @@ script = ExtResource("1_rn1aw")
 bullet_scene = ExtResource("2_2vtus")
 
 [node name="HealthBar" parent="." instance=ExtResource("5_rju02")]
-z_index = 11
 offset_left = -24.0
 offset_top = -36.0
 offset_right = 24.0

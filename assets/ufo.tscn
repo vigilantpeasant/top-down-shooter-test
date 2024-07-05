@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvb1klcwebsdt"]
+
+[ext_resource type="Texture2D" uid="uid://0buws828imyc" path="res://assets/ufo.png" id="1_h0iaj"]
+
+[node name="Ufo" type="StaticBody2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-73, 7, -34, -26, 43, -23, 76, 12, 71, 36, 13, 44, -65, 34)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_h0iaj")

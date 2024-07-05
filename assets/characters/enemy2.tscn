@@ -94,6 +94,10 @@ radius = 18.3
 size = Vector2(423, 402)
 
 [node name="Enemy2" type="CharacterBody2D" groups=["Enemy"]]
+z_index = 1
+collision_layer = 5
+collision_mask = 5
+motion_mode = 1
 script = ExtResource("1_y47ob")
 bullet_scene = ExtResource("2_vddqb")
 speed = 50

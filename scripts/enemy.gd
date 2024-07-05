@@ -16,9 +16,9 @@ extends CharacterBody2D
 @export var max_health = 50
 @export var detection_range = 200.0
 
+@onready var health = max_health
 var random_skin: int
 var player: Node2D
-var health = max_health
 var current_ammo = max_ammo
 var can_shoot = true
 var is_alive = true
@@ -61,10 +61,17 @@ func take_damage(min_damage: int, max_damage: int):
 		await get_tree().create_timer(10.0).timeout
 		queue_free()
 	else:
+		alert_nearby_enemies()
 		see_player()
 	
 	await get_tree().create_timer(0.4).timeout
 	blood.queue_free()
+
+func alert_nearby_enemies():
+	var enemies_in_range = get_tree().get_nodes_in_group("Enemy")
+	for enemy in enemies_in_range:
+		if enemy!= self and enemy.is_alive and global_position.distance_to(enemy.global_position) <= detection_range:
+			enemy.see_player()
 
 func see_player():
 	player = find_player_node(get_tree().get_root())
@@ -93,6 +100,7 @@ func _on_area_2d_body_entered(body):
 		animated_sprite_2d.play("weapon")
 		animated_sprite_2d.frame = random_skin
 		player = body
+		alert_nearby_enemies()
 
 func _process(_delta):
 	if player and is_alive:

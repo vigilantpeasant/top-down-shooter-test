@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=39 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_koyr6"]
@@ -90,6 +90,10 @@ font = ExtResource("3_koyr6")
 font_size = 20
 font_color = Color(1, 1, 1, 0)
 
+[sub_resource type="LabelSettings" id="LabelSettings_m3jrj"]
+font = ExtResource("3_koyr6")
+font_size = 18
+
 [sub_resource type="LabelSettings" id="LabelSettings_2rj6u"]
 font = ExtResource("3_koyr6")
 
@@ -119,10 +123,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GUI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_ny8m0"]
 resource_name = "dialog"
-length = 2.2
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -130,7 +146,7 @@ tracks/0/path = NodePath("GUI/HUD/Dialog:label_settings:font_color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 2.2),
+"times": PackedFloat32Array(0, 0.1, 2),
 "transitions": PackedFloat32Array(1, 5, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -364,10 +380,10 @@ offset_bottom = -28.0
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/GrenadePanel"]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 8.0
+offset_top = 9.0
 offset_right = 44.0
-offset_bottom = 36.0
-scale = Vector2(1.3, 1.3)
+offset_bottom = 37.0
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("7_vws4u")
 
 [node name="GrenadeBar" type="ProgressBar" parent="GUI/HUD/GrenadePanel"]
@@ -388,11 +404,11 @@ offset_bottom = -28.0
 
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/MeleePanel"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 8.0
-offset_right = 41.0
-offset_bottom = 35.0
-scale = Vector2(1.3, 1.3)
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 42.0
+offset_bottom = 38.0
+scale = Vector2(1.2, 1.2)
 texture = ExtResource("8_7scm0")
 
 [node name="MeleeBar" type="ProgressBar" parent="GUI/HUD/MeleePanel"]
@@ -573,9 +589,9 @@ texture = ExtResource("10_bd0cv")
 
 [node name="Dialog" type="Label" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = -132.0
+offset_left = -246.0
 offset_top = -150.0
-offset_right = 105.0
+offset_right = 219.0
 offset_bottom = -65.0
 text = "Dialog Test"
 label_settings = SubResource("LabelSettings_6t7ip")
@@ -583,6 +599,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 text_overrun_behavior = 3
+
+[node name="TutorialLabel" type="Label" parent="GUI/HUD"]
+layout_mode = 0
+offset_left = 414.0
+offset_top = -648.0
+offset_right = 575.0
+offset_bottom = -456.0
+text = "You can always hide/show control reference
+E to Show/Hide"
+label_settings = SubResource("LabelSettings_m3jrj")
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="Version" type="Label" parent="GUI"]
 offset_right = 64.0

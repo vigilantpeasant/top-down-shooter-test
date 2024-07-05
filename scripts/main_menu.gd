@@ -3,14 +3,26 @@ extends Control
 @onready var settings_menu = %"Settings Menu"
 @onready var animation_player = $AnimationPlayer
 @onready var gui = LevelStructure.get_node("GUI")
+@onready var game_state
 
 func _ready():
+	if get_tree().current_scene.name == "Tutorial":
+		game_state = TutorialGameState
+	else:
+		game_state = GameState
+	
 	gui.visible = false
 	animation_player.play("appear")
-	$Version.text = GameState.game_version
+	$Version.text = game_state.game_version
 
-func _on_new_game_pressed():
-	GameState.retry = false
+func _on_tutorial_pressed():
+	game_state.retry = false
+	game_state = TutorialGameState
+	get_tree().change_scene_to_file("res://tutorial.tscn")
+
+func _on_play_pressed():
+	game_state.retry = false
+	game_state = GameState
 	get_tree().change_scene_to_file("res://game.tscn")
 
 func _input(_event):

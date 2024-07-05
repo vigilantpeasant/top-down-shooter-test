@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://lr3gclapgfu7"]
+[gd_scene load_steps=8 format=3 uid="uid://lr3gclapgfu7"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_25erc"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
@@ -12,21 +12,6 @@ Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_uht4k"]
 font = ExtResource("2_umr2p")
 font_size = 70
-
-[sub_resource type="Animation" id="Animation_jt1tr"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_caypv"]
 resource_name = "appear"
@@ -46,7 +31,6 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_45nel"]
 _data = {
-"RESET": SubResource("Animation_jt1tr"),
 "appear": SubResource("Animation_caypv")
 }
 
@@ -54,7 +38,6 @@ _data = {
 font = ExtResource("2_umr2p")
 
 [node name="Main Menu" type="Control"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,18 +76,26 @@ offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="New Game" type="Button" parent="Main/VBoxContainer"]
+[node name="Play" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 focus_neighbor_bottom = NodePath("../Settings")
 theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
-text = "Play"
+text = "Play Game"
+
+[node name="Tutorial" type="Button" parent="Main/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+focus_neighbor_bottom = NodePath("../Settings")
+theme_override_fonts/font = ExtResource("2_umr2p")
+theme_override_font_sizes/font_size = 24
+text = "Play Tutorial"
 
 [node name="Settings" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-focus_neighbor_top = NodePath("../New Game")
+focus_neighbor_top = NodePath("../Tutorial")
 theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "Options"
@@ -190,7 +181,8 @@ offset_bottom = 23.0
 text = "game_version"
 label_settings = SubResource("LabelSettings_uglcn")
 
-[connection signal="pressed" from="Main/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Settings Menu/Back" to="." method="_on_back_pressed"]

@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://dag3mwh2yrajj"]
+
+[ext_resource type="Script" path="res://scripts/barrel.gd" id="1_r5ub1"]
+[ext_resource type="Texture2D" uid="uid://bvbfg4q1341ug" path="res://assets/barrel.png" id="2_7fnjm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4sy0"]
+size = Vector2(22, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u4u7l"]
+radius = 83.35
+
+[sub_resource type="Curve" id="Curve_w6a3n"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.366038), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_074q8"]
+curve = SubResource("Curve_w6a3n")
+
+[sub_resource type="Curve" id="Curve_dpbhq"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3qscf"]
+curve = SubResource("Curve_dpbhq")
+
+[sub_resource type="Curve" id="Curve_t14ga"]
+_data = [Vector2(0, 0.215094), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_0cue5"]
+curve = SubResource("Curve_t14ga")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fkgs6"]
+particle_flag_disable_z = true
+spread = 180.0
+flatness = 0.5
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+damping_min = 200.0
+damping_max = 200.0
+damping_curve = SubResource("CurveTexture_3qscf")
+scale_max = 2.5
+scale_curve = SubResource("CurveTexture_0cue5")
+alpha_curve = SubResource("CurveTexture_074q8")
+turbulence_influence_min = 0.2
+turbulence_influence_max = 0.2
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_18ix2"]
+load_path = "res://.godot/imported/explosion.png-3d70b655f829d2ec362997bd3be8e3ae.ctex"
+
+[node name="Barrel" type="StaticBody2D" groups=["One-Shot"]]
+scale = Vector2(1.2, 1.2)
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_r5ub1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_k4sy0")
+
+[node name="Barrel2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7fnjm")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 20
+collision_mask = 20
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_u4u7l")
+debug_color = Color(0.850522, 0.351478, 0.334546, 0.42)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Area2D"]
+z_index = -1
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_fkgs6")
+texture = SubResource("CompressedTexture2D_18ix2")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -3,7 +3,6 @@ class_name Player
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var marker_2d = $AnimatedSprite2D/Marker2D
-@onready var camera = $Camera2D
 @onready var reload_bar = LevelStructure.get_node("GUI/HUD/AmmoPanel/Ammo/ReloadBar")
 @onready var weapon_bar = LevelStructure.get_node("GUI/HUD/Weapons/WeaponBar") as ProgressBar
 @onready var material_label = LevelStructure.get_node("GUI/HUD/MaterialPanel/MaterialLabel")
@@ -47,8 +46,6 @@ var is_reloading = false
 var can_throw_grenade = true
 var is_alive = true
 var is_moving = false
-var screen_shake_amount = 1.0
-var screen_shake_duration = 0.1
 
 func _ready():
 	gui.visible = true
@@ -214,11 +211,9 @@ func shoot():
 	if GameState.selected_weapon == "plasma rifle":
 		current_rifle_ammo -= 1
 		ammo.text = str(current_rifle_ammo)
-		screen_shake_amount = 0.2
 	elif GameState.selected_weapon == "plasma pistol":
 		current_pistol_ammo -= 1
 		ammo.text = str(current_pistol_ammo)
-		screen_shake_amount = 0.4
 	
 	var miss_chance = MISS_CHANCE
 	if is_moving:
@@ -230,7 +225,7 @@ func shoot():
 	if randf() < miss_chance:
 		angle_offset = deg_to_rad(randf_range(-MAX_MISS_ANGLE, MAX_MISS_ANGLE))
 	var new_bullet = preload("res://assets/bullet.tscn").instantiate()
-	new_bullet.modulate = Color("ORCHID")
+	new_bullet.modulate = Color(0.94581073522568, 0.00072908459697, 0.94580382108688)
 	new_bullet.global_position = marker_2d.global_position
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
 	marker_2d.add_child(new_bullet)
@@ -241,19 +236,8 @@ func shoot():
 	elif GameState.selected_weapon == "plasma pistol":
 		rate_of_fire = RATE_OF_FIRE_PISTOL
 	
-	screen_shake(screen_shake_amount, screen_shake_duration)
-
 	await get_tree().create_timer(rate_of_fire).timeout
 	can_shoot = true
-
-func screen_shake(amount, duration):
-	var shake_timer = duration
-	while shake_timer > 0:
-		var offset = Vector2(randf_range(-amount, amount), randf_range(-amount, amount))
-		camera.offset = offset
-		shake_timer -= 0.05
-		await get_tree().create_timer(0.05).timeout
-	camera.offset = Vector2.ZERO
 
 func increment_reload_bar():
 	var step = 0.05

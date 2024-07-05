@@ -38,11 +38,6 @@ func _create_explosion():
 	await get_tree().create_timer(0.5).timeout
 	queue_free()
 
-func _on_body_entered(_body):
-	has_hit_enemy = true
-	GRENADE_SPEED = 0
-	_create_explosion()
-
 func _on_explosion_site_entered(body):
 	if body.has_method("take_damage"):
 		body.take_damage(15, 35)
