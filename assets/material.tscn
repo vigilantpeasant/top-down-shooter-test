@@ -1,10 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://br4amvepv0fdt"]
+[gd_scene load_steps=6 format=3 uid="uid://br4amvepv0fdt"]
 
 [ext_resource type="Script" path="res://scripts/material.gd" id="1_iy1n5"]
 [ext_resource type="Texture2D" uid="uid://bnrqy1qrup2hv" path="res://assets/material.png" id="2_bglq7"]
+[ext_resource type="Texture2D" uid="uid://bsoakwbfceyhn" path="res://assets/materials.png" id="3_yg1m5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23tub"]
 radius = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_73p7j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bglq7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yg1m5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
 
 [node name="Material" type="Area2D"]
 collision_layer = 0
@@ -14,7 +29,8 @@ script = ExtResource("1_iy1n5")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_23tub")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_bglq7")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_73p7j")
+autoplay = "default"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

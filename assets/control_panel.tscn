@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://yfwf7ut7ftht"]
+
+[ext_resource type="Texture2D" uid="uid://8hpgeatchf70" path="res://assets/control_panel1.png" id="1_m75w5"]
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_nuoec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p6o2f"]
+size = Vector2(34, 60)
+
+[node name="ControlPanel" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_nuoec")
+health = 2
+can_give_material = true
+material_number = 1
+color = Color(0.972549, 0.972549, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p6o2f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.6, 2.6)
+texture = ExtResource("1_m75w5")

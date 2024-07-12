@@ -18,8 +18,8 @@ class_name Player
 @onready var GUI_animation = LevelStructure.get_node("AnimationPlayer")
 @onready var gui = LevelStructure.get_node("GUI")
 
-const SPEED = 200
-const DASH_SPEED = 600
+const SPEED = 250
+const DASH_SPEED = 650
 const DASH_DURATION = 0.2
 const DASH_INTERVAL = 0.5
 const RATE_OF_FIRE_RIFLE = 0.2
@@ -44,8 +44,15 @@ var can_shoot = true
 var can_melee = true
 var is_reloading = false
 var can_throw_grenade = true
+var max_total_rifle_ammo = 20
+var max_total_pistol_ammo = 10
+var total_rifle_ammo = max_total_rifle_ammo
+var total_pistol_ammo = max_total_pistol_ammo
 var is_alive = true
 var is_moving = false
+var blood_scene = preload("res://assets/particle.tscn")
+var grenade_scene = preload("res://assets/grenade.tscn")
+var bullet_scene = preload("res://assets/bullet.tscn")
 
 func _ready():
 	gui.visible = true
@@ -62,10 +69,9 @@ func _ready():
 	dash_effect.max_value = 100
 	dash_effect.value = 0
 	reload_bar.visible = false
-	
 	update_health_bar_texture()
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if not is_alive:
 		return
 	
@@ -74,7 +80,7 @@ func _physics_process(_delta):
 	is_moving = direction.length() > 0
 	if dashing:
 		velocity = direction * DASH_SPEED
-		dash_timer -= _delta
+		dash_timer -= delta
 		if dash_timer <= 0:
 			dashing = false
 	else:
@@ -119,12 +125,21 @@ func _process(_delta):
 		increment_dash_effect()
 
 	if Input.is_action_just_pressed("reload") and not is_reloading:
-		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo < MAX_RIFLE_AMMO) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo < MAX_PISTOL_AMMO):
+		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo < MAX_RIFLE_AMMO and total_rifle_ammo > 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo < MAX_PISTOL_AMMO and total_pistol_ammo > 0):
 			is_reloading = true
 			can_shoot = false
 			reload_bar.visible = true
 			reload_bar.value = 0
-			ammo.text = "Re"
+			ammo.text = "Reload"
+			increment_reload_bar()
+	
+	if Settings.autoreload and not is_reloading:
+		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo == 0 and total_rifle_ammo > 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo == 0 and total_pistol_ammo > 0):
+			is_reloading = true
+			can_shoot = false
+			reload_bar.visible = true
+			reload_bar.value = 0
+			ammo.text = "Reload"
 			increment_reload_bar()
 	
 	if is_reloading:
@@ -136,13 +151,13 @@ func _process(_delta):
 
 func _on_melee_attack_body_entered(body):
 	if body.has_method("take_damage"):
-		body.take_damage(7, 20)
+		body.take_damage(7, 20, global_position)
 
 func melee_attack():
 	if not is_alive:
 		return
-	can_melee = false
 	
+	can_melee = false
 	$MeleeAttack/CollisionShape2D.disabled = false
 	$MeleeAttack/Slash.visible = true
 	animated_sprite_2d.play("melee")
@@ -157,9 +172,9 @@ func melee_attack():
 
 func update_ammo_text():
 	if GameState.selected_weapon == "plasma rifle":
-		ammo.text = str(current_rifle_ammo)
+		ammo.text = str(current_rifle_ammo) + " / " + str(total_rifle_ammo)
 	elif GameState.selected_weapon == "plasma pistol":
-		ammo.text = str(current_pistol_ammo)
+		ammo.text = str(current_pistol_ammo) + " / " + str(total_pistol_ammo)
 
 func increment_melee_effect():
 	var step = 0.05
@@ -195,7 +210,7 @@ func throw_grenade():
 	if not is_alive:
 		return
 	can_throw_grenade = false
-	var new_grenade = preload("res://assets/grenade.tscn").instantiate()
+	var new_grenade = grenade_scene.instantiate()
 	new_grenade.global_position = marker_2d.global_position
 	new_grenade.global_rotation = marker_2d.global_rotation
 	marker_2d.add_child(new_grenade)
@@ -210,10 +225,10 @@ func shoot():
 	can_shoot = false
 	if GameState.selected_weapon == "plasma rifle":
 		current_rifle_ammo -= 1
-		ammo.text = str(current_rifle_ammo)
+		update_ammo_text()
 	elif GameState.selected_weapon == "plasma pistol":
 		current_pistol_ammo -= 1
-		ammo.text = str(current_pistol_ammo)
+		update_ammo_text()
 	
 	var miss_chance = MISS_CHANCE
 	if is_moving:
@@ -224,7 +239,7 @@ func shoot():
 	var angle_offset = 0.0
 	if randf() < miss_chance:
 		angle_offset = deg_to_rad(randf_range(-MAX_MISS_ANGLE, MAX_MISS_ANGLE))
-	var new_bullet = preload("res://assets/bullet.tscn").instantiate()
+	var new_bullet = bullet_scene.instantiate()
 	new_bullet.modulate = Color(0.94581073522568, 0.00072908459697, 0.94580382108688)
 	new_bullet.global_position = marker_2d.global_position
 	new_bullet.global_rotation = marker_2d.global_rotation + angle_offset
@@ -247,32 +262,39 @@ func increment_reload_bar():
 		get_tree().create_timer(step).timeout.connect(increment_reload_bar)
 	else:
 		if GameState.selected_weapon == "plasma rifle":
-			current_rifle_ammo = MAX_RIFLE_AMMO
+			var ammo_needed = MAX_RIFLE_AMMO - current_rifle_ammo
+			var ammo_to_reload = min(ammo_needed, total_rifle_ammo)
+			current_rifle_ammo += ammo_to_reload
+			total_rifle_ammo -= ammo_to_reload
 		elif GameState.selected_weapon == "plasma pistol":
-			current_pistol_ammo = MAX_PISTOL_AMMO
+			var ammo_needed = MAX_PISTOL_AMMO - current_pistol_ammo
+			var ammo_to_reload = min(ammo_needed, total_pistol_ammo)
+			current_pistol_ammo += ammo_to_reload
+			total_pistol_ammo -= ammo_to_reload
 		update_ammo_text()
 		
 		reload_bar.visible = false
-		is_reloading = false
 		await get_tree().create_timer(0.5).timeout
+		is_reloading = false
 		can_shoot = true
 
-func take_damage(min_damage : int, max_damage : int):
+func take_damage(min_damage : int, max_damage : int, hit_position : Vector2):
 	if not can_dash or not is_alive:
 		return
 	
-	var blood = preload("res://assets/particle.tscn").instantiate() as GPUParticles2D
+	var blood = blood_scene.instantiate() as GPUParticles2D
 	blood.modulate = Color(0.117647, 0.564706, 1, 1)
 	get_parent().add_child(blood)
-	blood.global_position = global_position + direction * 10
-	blood.global_rotation = direction.angle()
+	var particle_direction = (global_position - hit_position).normalized()
+	blood.global_position = hit_position + particle_direction * 10
+	blood.global_rotation = particle_direction.angle()
 	blood.emitting = true
 	
 	health -= randi_range(min_damage, max_damage)
 	if health_bar:
 		health_bar.value = health
 		health_label.text = str(health) + " / " + str(max_health)
-	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
+	get_tree().create_timer(0.5).timeout.connect(update_damage_bar)
 	update_health_bar_texture()
 	
 	if health <= 0:
@@ -289,7 +311,7 @@ func take_damage(min_damage : int, max_damage : int):
 	await get_tree().create_timer(0.4).timeout
 	blood.queue_free()
 
-func _update_damage_bar():
+func update_damage_bar():
 	while damage_bar.value > health_bar.value:
 		damage_bar.value -= 1
 		health_label.text = str(health) + " / " + str(max_health)

@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://gv6hlpiqpjdl"]
+
+[ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="1_7bueo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e4a45"]
+
+[resource]
+default_font = ExtResource("1_7bueo")
+default_font_size = 24
+Button/colors/font_focus_color = Color(0, 0.65098, 0.952941, 1)
+Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
+Button/fonts/font = ExtResource("1_7bueo")
+Button/styles/focus = SubResource("StyleBoxEmpty_e4a45")
+ItemList/colors/font_color = Color(1, 1, 1, 1)
+ItemList/colors/font_hovered_color = Color(0.669314, 0.669316, 0.669316, 1)

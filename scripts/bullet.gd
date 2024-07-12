@@ -22,11 +22,11 @@ func _on_body_entered(body):
 	queue_free()
 	if body.has_method("take_damage"):
 		if body.is_in_group("Player"):
-			body.take_damage(5, 10)
+			body.take_damage(3, 10, global_position)
 		elif body.is_in_group("Enemy"):
 			if GameState.selected_weapon == "plasma rifle":
-				body.take_damage(7, 15)
+				body.take_damage(7, 15, global_position)
 			else:
-				body.take_damage(10, 15)
+				body.take_damage(10, 15, global_position)
 		elif body.is_in_group("One-Shot"):
-			body.take_damage(1, 1)
+			body.take_damage(1, 1, global_position)

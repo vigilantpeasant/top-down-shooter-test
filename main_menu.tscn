@@ -1,17 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://lr3gclapgfu7"]
+[gd_scene load_steps=10 format=3 uid="uid://lr3gclapgfu7"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_25erc"]
+[ext_resource type="Theme" uid="uid://gv6hlpiqpjdl" path="res://assets/theme.tres" id="1_yaudd"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="2_umr2p"]
-
-[sub_resource type="Theme" id="Theme_8rv0e"]
-default_font = ExtResource("2_umr2p")
-default_font_size = 22
-Button/colors/font_focus_color = Color(0, 0.65098, 0.952941, 1)
-Button/colors/font_hover_color = Color(0, 0.65098, 0.952941, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_uht4k"]
 font = ExtResource("2_umr2p")
 font_size = 70
+
+[sub_resource type="LabelSettings" id="LabelSettings_t3nec"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_tsoqf"]
+font = ExtResource("2_umr2p")
+font_size = 26
 
 [sub_resource type="Animation" id="Animation_caypv"]
 resource_name = "appear"
@@ -44,8 +46,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_8rv0e")
+theme = ExtResource("1_yaudd")
 script = ExtResource("1_25erc")
+
+[node name="GameName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -391.5
+offset_top = -104.0
+offset_right = 393.5
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "FALL FACTORY"
+label_settings = SubResource("LabelSettings_uht4k")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Main" type="Control" parent="."]
 unique_name_in_owner = true
@@ -70,7 +90,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -128.0
-offset_top = -136.0
+offset_top = -138.0
 offset_right = 128.0
 offset_bottom = -16.0
 grow_horizontal = 2
@@ -79,48 +99,56 @@ grow_vertical = 0
 [node name="Play" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-focus_neighbor_bottom = NodePath("../Settings")
-theme_override_fonts/font = ExtResource("2_umr2p")
-theme_override_font_sizes/font_size = 24
+tooltip_text = "Play game"
 text = "Play Game"
-
-[node name="Tutorial" type="Button" parent="Main/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-focus_neighbor_bottom = NodePath("../Settings")
-theme_override_fonts/font = ExtResource("2_umr2p")
-theme_override_font_sizes/font_size = 24
-text = "Play Tutorial"
 
 [node name="Settings" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
-focus_neighbor_top = NodePath("../Tutorial")
-theme_override_fonts/font = ExtResource("2_umr2p")
-theme_override_font_sizes/font_size = 24
+tooltip_text = "Adjust game settings"
 text = "Options"
 
 [node name="Exit" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
 
-[node name="GameName" type="Label" parent="Main"]
+[node name="Stage Select" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 644.0
+theme = ExtResource("1_yaudd")
+
+[node name="Back" type="Button" parent="Stage Select"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.955
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -391.5
-offset_top = -104.0
-offset_right = 393.5
-offset_bottom = -16.0
+anchor_bottom = 0.955
+offset_left = -128.0
+offset_top = -19.2
+offset_right = 128.0
+offset_bottom = 18.8
 grow_horizontal = 2
-grow_vertical = 2
-text = "PROJECT: FALL FACTORY"
-label_settings = SubResource("LabelSettings_uht4k")
-horizontal_alignment = 1
-vertical_alignment = 1
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_umr2p")
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[node name="ItemList" type="ItemList" parent="Stage Select"]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 510.0
+offset_right = 704.0
+offset_bottom = 590.0
+allow_rmb_select = true
+item_count = 2
+fixed_column_width = 240
+icon_mode = 0
+item_0/text = "Tutorial"
+item_1/text = "Level1"
 
 [node name="Settings Menu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -138,36 +166,156 @@ offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="Settings Menu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -512.0
-offset_top = -308.0
-offset_right = 512.0
-offset_bottom = 268.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="Back" type="Button" parent="Settings Menu"]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.955
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.955
 offset_left = -128.0
-offset_top = -48.0
+offset_top = -19.2
 offset_right = 128.0
-offset_bottom = -10.0
+offset_bottom = 18.8
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("2_umr2p")
 theme_override_font_sizes/font_size = 24
 text = "Back"
+
+[node name="Panel" type="Panel" parent="Settings Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 47.0
+offset_top = 19.0
+offset_right = -47.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings Menu/Panel"]
+layout_mode = 0
+offset_right = 1058.0
+offset_bottom = 557.0
+alignment = 1
+
+[node name="Audio" type="Label" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Audio"
+label_settings = SubResource("LabelSettings_t3nec")
+
+[node name="GridContainer" type="GridContainer" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="SFX" type="Label" parent="Settings Menu/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+tooltip_text = "Changes the volume of the sound effects"
+mouse_filter = 1
+text = "SFX:        "
+label_settings = SubResource("LabelSettings_tsoqf")
+
+[node name="HSlider" type="HSlider" parent="Settings Menu/Panel/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 10.0
+value = 10.0
+tick_count = 10
+ticks_on_borders = true
+
+[node name="Seperator" type="Control" parent="Settings Menu/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Game" type="Label" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Game"
+label_settings = SubResource("LabelSettings_t3nec")
+
+[node name="GridContainer2" type="GridContainer" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="AutoReload" type="Label" parent="Settings Menu/Panel/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Automatically reload the weapon when ammo reaches zero"
+mouse_filter = 1
+text = "Auto Reload: "
+label_settings = SubResource("LabelSettings_tsoqf")
+
+[node name="CheckButton" type="CheckButton" parent="Settings Menu/Panel/VBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="InOverlay" type="Label" parent="Settings Menu/Panel/VBoxContainer/GridContainer2"]
+layout_mode = 2
+tooltip_text = "Shows selected properties in-game"
+mouse_filter = 1
+text = "In Overlay: "
+label_settings = SubResource("LabelSettings_tsoqf")
+
+[node name="OptionButton" type="OptionButton" parent="Settings Menu/Panel/VBoxContainer/GridContainer2"]
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "FPS + Version"
+popup/item_0/id = 0
+popup/item_1/text = "Only FPS"
+popup/item_1/id = 1
+popup/item_2/text = "Only Version"
+popup/item_2/id = 2
+popup/item_3/text = "None"
+popup/item_3/id = 3
+
+[node name="Seperator2" type="Control" parent="Settings Menu/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Video" type="Label" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Video"
+label_settings = SubResource("LabelSettings_t3nec")
+
+[node name="GridContainer3" type="GridContainer" parent="Settings Menu/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="Fullscreen" type="Label" parent="Settings Menu/Panel/VBoxContainer/GridContainer3"]
+layout_mode = 2
+tooltip_text = "Toggles fullscreen mode"
+mouse_filter = 1
+text = "Fullscreen: "
+label_settings = SubResource("LabelSettings_tsoqf")
+
+[node name="CheckButton" type="CheckButton" parent="Settings Menu/Panel/VBoxContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Vsync" type="Label" parent="Settings Menu/Panel/VBoxContainer/GridContainer3"]
+layout_mode = 2
+tooltip_text = "Synchronizes frame rate with monitor refresh rate"
+mouse_filter = 1
+text = "V-Sync (recommended):"
+label_settings = SubResource("LabelSettings_tsoqf")
+
+[node name="CheckButton2" type="CheckButton" parent="Settings Menu/Panel/VBoxContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 0
+button_pressed = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -182,7 +330,12 @@ text = "game_version"
 label_settings = SubResource("LabelSettings_uglcn")
 
 [connection signal="pressed" from="Main/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Main/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Stage Select/Back" to="." method="_on_back_pressed"]
+[connection signal="item_clicked" from="Stage Select/ItemList" to="." method="_on_item_list_item_clicked"]
 [connection signal="pressed" from="Settings Menu/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer2/CheckButton" to="." method="_on_autoreload_button_pressed"]
+[connection signal="item_selected" from="Settings Menu/Panel/VBoxContainer/GridContainer2/OptionButton" to="." method="_on_in_overlay_item_selected"]
+[connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer3/CheckButton" to="." method="_on_fullscreen_pressed"]
+[connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer3/CheckButton2" to="." method="_on_vsync_pressed"]

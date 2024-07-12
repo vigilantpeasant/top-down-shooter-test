@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbbvsgsxm84w8"]
+
+[ext_resource type="Texture2D" uid="uid://bba23gps5t3fi" path="res://assets/parking_line.png" id="1_7ekpl"]
+
+[node name="Parking Line" type="Sprite2D"]
+scale = Vector2(3, 3)
+texture = ExtResource("1_7ekpl")

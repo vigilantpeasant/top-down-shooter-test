@@ -1,12 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgvsmrp1neoy3"]
+[gd_scene load_steps=3 format=3 uid="uid://bgvsmrp1neoy3"]
 
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_en1ht"]
 [ext_resource type="Texture2D" uid="uid://dyqgct8vf8arn" path="res://assets/truck.png" id="1_i8vy7"]
 
-[node name="Truck" type="StaticBody2D"]
+[node name="Truck" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_en1ht")
+health = 3
+can_give_material = true
+material_number = 3
+color = Color(0.972549, 0.972549, 1, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
 texture = ExtResource("1_i8vy7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(-90, -24, -84, -30, -72, -36, -42, -39, -18, -36, 90, -36, 93, -18, 93, 18, 87, 36, -18, 36, -42, 39, -72, 36, -84, 30, -90, 24)

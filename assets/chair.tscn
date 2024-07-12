@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcsy8y3wqc2ym"]
+
+[ext_resource type="Texture2D" uid="uid://cb26q2cmcriy3" path="res://assets/chair.png" id="1_nh346"]
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_wocq8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_po6o7"]
+size = Vector2(20, 30)
+
+[node name="Chair" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_wocq8")
+color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_po6o7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_nh346")

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://8jlr1rfyug5p"]
+
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_03lcb"]
+[ext_resource type="Texture2D" uid="uid://8mngm0pe0gng" path="res://assets/bed.png" id="1_wsmfw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybfto"]
+size = Vector2(42, 82)
+
+[node name="Bed" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_03lcb")
+health = 2
+can_give_material = true
+material_number = 1
+color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_ybfto")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("1_wsmfw")

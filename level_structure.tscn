@@ -1,6 +1,7 @@
-[gd_scene load_steps=39 format=3 uid="uid://qk8sxlf0t24"]
+[gd_scene load_steps=41 format=3 uid="uid://qk8sxlf0t24"]
 
 [ext_resource type="Script" path="res://scripts/level_structure.gd" id="1_qd2qe"]
+[ext_resource type="Theme" uid="uid://gv6hlpiqpjdl" path="res://assets/theme.tres" id="2_e3lye"]
 [ext_resource type="FontFile" uid="uid://d1fsiumi1aqsl" path="res://assets/fonts/PixelifySans-Regular.ttf" id="3_koyr6"]
 [ext_resource type="Texture2D" uid="uid://bsoakwbfceyhn" path="res://assets/materials.png" id="3_tkjuy"]
 [ext_resource type="Texture2D" uid="uid://bydu2bwjk7qh0" path="res://assets/dash.png" id="5_3162r"]
@@ -90,12 +91,12 @@ font = ExtResource("3_koyr6")
 font_size = 20
 font_color = Color(1, 1, 1, 0)
 
-[sub_resource type="LabelSettings" id="LabelSettings_m3jrj"]
-font = ExtResource("3_koyr6")
-font_size = 18
-
 [sub_resource type="LabelSettings" id="LabelSettings_2rj6u"]
 font = ExtResource("3_koyr6")
+
+[sub_resource type="LabelSettings" id="LabelSettings_m3jrj"]
+font = ExtResource("3_koyr6")
+font_size = 20
 
 [sub_resource type="Animation" id="Animation_17na8"]
 length = 0.001
@@ -126,7 +127,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("GUI:visible")
+tracks/2/path = NodePath("CanvasModulate:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -134,6 +135,42 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasModulate:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasModulate:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GUI/HUD:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ny8m0"]
@@ -147,9 +184,61 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 2),
-"transitions": PackedFloat32Array(1, 5, 1),
+"transitions": PackedFloat32Array(1, 22, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cp5y6"]
+resource_name = "fadeout"
+length = 3.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasModulate:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.9, 3.1),
+"transitions": PackedFloat32Array(1, 10, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasModulate:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.9, 3.1),
+"transitions": PackedFloat32Array(1, 10, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("GUI/HUD:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_rh2q3"]
@@ -171,6 +260,7 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_17na8"),
 "dialog": SubResource("Animation_ny8m0"),
+"fadeout": SubResource("Animation_cp5y6"),
 "game_over": SubResource("Animation_rh2q3")
 }
 
@@ -186,6 +276,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1144.0
 offset_bottom = 648.0
+theme = ExtResource("2_e3lye")
 
 [node name="Label" type="Label" parent="GUI/GameOver"]
 layout_mode = 1
@@ -229,6 +320,7 @@ theme_override_font_sizes/font_size = 24
 text = "Exit"
 
 [node name="HUD" type="Control" parent="GUI"]
+visible = false
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
@@ -275,13 +367,13 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 117.0
 offset_top = -49.0
-offset_right = 219.0
+offset_right = 246.0
 offset_bottom = -9.0
 
 [node name="TextureRect" type="TextureRect" parent="GUI/HUD/AmmoPanel"]
 layout_mode = 0
-offset_left = 57.0
-offset_right = 97.0
+offset_left = 88.0
+offset_right = 128.0
 offset_bottom = 40.0
 texture = ExtResource("9_6uijm")
 
@@ -292,13 +384,13 @@ anchor_left = 4.66667
 anchor_top = 1.83339
 anchor_right = 4.66667
 anchor_bottom = 1.83339
-offset_left = -476.0
+offset_left = -602.0
 offset_top = -73.3356
-offset_right = -422.0
+offset_right = -511.0
 offset_bottom = -33.3356
 grow_horizontal = 2
 grow_vertical = 0
-text = "20"
+text = "20/40"
 label_settings = SubResource("LabelSettings_sdctn")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -309,7 +401,7 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.729
 anchor_bottom = 1.0
-offset_right = -0.0110016
+offset_right = -29.339
 theme_override_styles/background = SubResource("StyleBoxEmpty_2to5h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_okv5l")
 show_percentage = false
@@ -589,28 +681,15 @@ texture = ExtResource("10_bd0cv")
 
 [node name="Dialog" type="Label" parent="GUI/HUD"]
 layout_mode = 0
-offset_left = -246.0
-offset_top = -150.0
-offset_right = 219.0
-offset_bottom = -65.0
-text = "Dialog Test"
-label_settings = SubResource("LabelSettings_6t7ip")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-text_overrun_behavior = 3
-
-[node name="TutorialLabel" type="Label" parent="GUI/HUD"]
-layout_mode = 0
-offset_left = 414.0
+offset_left = 407.0
 offset_top = -648.0
 offset_right = 575.0
-offset_bottom = -456.0
-text = "You can always hide/show control reference
-E to Show/Hide"
-label_settings = SubResource("LabelSettings_m3jrj")
-horizontal_alignment = 1
+offset_bottom = -588.0
+text = "Checkpoint reached"
+label_settings = SubResource("LabelSettings_6t7ip")
+horizontal_alignment = 2
 autowrap_mode = 3
+text_overrun_behavior = 3
 
 [node name="Version" type="Label" parent="GUI"]
 offset_right = 64.0
@@ -619,10 +698,24 @@ text = "game_version
 60"
 label_settings = SubResource("LabelSettings_2rj6u")
 
+[node name="TutorialLabel" type="Label" parent="GUI"]
+offset_left = 330.0
+offset_top = 411.0
+offset_right = 812.0
+offset_bottom = 567.0
+text = "Test"
+label_settings = SubResource("LabelSettings_m3jrj")
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_4g82y")
 }
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+modulate = Color(1, 1, 1, 0)
 
 [connection signal="button_down" from="GUI/GameOver/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
 [connection signal="button_down" from="GUI/GameOver/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]

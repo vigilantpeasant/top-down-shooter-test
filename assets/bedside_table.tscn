@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwrpm5vhd0ajr"]
+
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_3prg7"]
+[ext_resource type="Texture2D" uid="uid://jnhwkdf48mw8" path="res://assets/bedside_table.png" id="1_16foc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfp85"]
+size = Vector2(23.9852, 26.0137)
+
+[node name="Bedside Table" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_3prg7")
+color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+rotation = -0.00056916
+shape = SubResource("RectangleShape2D_vfp85")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("1_16foc")

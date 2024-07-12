@@ -27,7 +27,6 @@ animations = [{
 }]
 
 [node name="Checkpoint" type="Area2D"]
-z_index = -1
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_2dyqy")

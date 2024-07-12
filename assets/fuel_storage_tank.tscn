@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnauaotdtvmu7"]
+
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_3kovl"]
+[ext_resource type="Texture2D" uid="uid://cygjfdf3ykt76" path="res://assets/storage_tank.png" id="1_emetp"]
+[ext_resource type="Texture2D" uid="uid://bia80tpbkpim8" path="res://assets/storage_tank_long.png" id="2_y2pum"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1lrxt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_emetp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y2pum")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vuj3u"]
+size = Vector2(192, 192)
+
+[node name="FuelStorageTank" type="StaticBody2D" groups=["One-Shot"]]
+script = ExtResource("1_3kovl")
+health = 8
+can_give_material = true
+material_number = 6
+color = Color(0.972549, 0.972549, 1, 1)
+type = "Storage_Tank"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2.8, 2.8)
+sprite_frames = SubResource("SpriteFrames_1lrxt")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_vuj3u")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckp4se861lfjy"]
+
+[ext_resource type="Material" uid="uid://n0pjibsnjxlm" path="res://assets/explosion_particle.tres" id="1_yp7f2"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_uioaj"]
+load_path = "res://.godot/imported/explosion.png-3d70b655f829d2ec362997bd3be8e3ae.ctex"
+
+[node name="Explosion Particle" type="GPUParticles2D"]
+z_index = -1
+emitting = false
+amount = 80
+process_material = ExtResource("1_yp7f2")
+texture = SubResource("CompressedTexture2D_uioaj")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5

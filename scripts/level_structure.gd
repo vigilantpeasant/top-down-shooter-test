@@ -7,13 +7,24 @@ func _ready():
 func scene_start():
 	if get_tree().current_scene.name == "Tutorial":
 		game_state = TutorialGameState
+		$GUI/TutorialLabel.text = "You can always hide/show control reference
+E to Show/Hide"
 	else:
 		game_state = GameState
+		$GUI/TutorialLabel.text = "I need to repair my ship. I need at least 20 material"
 	
 	$GUI/HUD/MaterialPanel/MaterialLabel.text = str(game_state.material_count)
 
 func _process(_delta):
-	$GUI/Version.text = game_state.game_version + "\n" + str(Engine.get_frames_per_second())
+	match (Settings.inoverlay):
+		0:
+			$GUI/Version.text = game_state.game_version + "\n" + str(Engine.get_frames_per_second())
+		1:
+			$GUI/Version.text = str(Engine.get_frames_per_second())
+		2:
+			$GUI/Version.text = game_state.game_version
+		3:
+			$GUI/Version.text = ""
 
 func _input(event):
 	if event.is_action_pressed("interaction"):
@@ -31,6 +42,7 @@ func _input(event):
 			$GUI/HUD/MeleePanel.position = Vector2(371, -58)
 	
 	if event.is_action_pressed("escape"):
+		$GUI/TutorialLabel.text = ""
 		game_state.retry = false
 		get_tree().change_scene_to_file("res://main_menu.tscn")
 		if not game_state.last_pos:

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://chlqk3ahnsp42"]
+
+[ext_resource type="Texture2D" uid="uid://d37bfdicw2quh" path="res://assets/table.png" id="1_226yg"]
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_hu36i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0bxt"]
+size = Vector2(52, 26)
+
+[node name="Table" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_hu36i")
+health = 2
+color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_i0bxt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_226yg")

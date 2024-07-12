@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Enemy
 
 @export var bullet_scene: PackedScene
 @onready var health_bar = $HealthBar
@@ -22,6 +23,7 @@ var player: Node2D
 var current_ammo = max_ammo
 var can_shoot = true
 var is_alive = true
+var blood_scene = preload("res://assets/particle.tscn")
 
 func _ready():
 	health_bar.max_value = max_health
@@ -35,24 +37,25 @@ func _ready():
 		health_bar.visible = false
 		damage_bar.visible = false
 
-func take_damage(min_damage: int, max_damage: int):
+func take_damage(min_damage: int, max_damage: int, hit_position : Vector2):
 	health_bar.visible = true
 	damage_bar.visible = true
 	
-	var blood = preload("res://assets/particle.tscn").instantiate() as GPUParticles2D
+	var blood = blood_scene.instantiate() as GPUParticles2D
 	blood.modulate = Color(0.698039, 0.133333, 0.133333, 1)
 	get_parent().add_child(blood)
-	var direction = (global_position - get_global_mouse_position()).normalized()
-	blood.global_position = global_position + direction * 10
+	var direction = (global_position - hit_position).normalized()
+	blood.global_position = hit_position + direction * 10
 	blood.global_rotation = direction.angle()
 	blood.emitting = true
 	
 	health -= randi_range(min_damage, max_damage)
 	health_bar.value = health
-	get_tree().create_timer(0.5).timeout.connect(_update_damage_bar)
+	get_tree().create_timer(0.5).timeout.connect(update_damage_bar)
 	if health <= 0:
 		is_alive = false
 		animated_sprite_2d.play("dead")
+		z_index = 0
 		animated_sprite_2d.frame = random_skin
 		collision_shape_2d.queue_free()
 		health_bar.visible = false
@@ -90,7 +93,7 @@ func find_player_node(node):
 	
 	return null
 
-func _update_damage_bar():
+func update_damage_bar():
 	while damage_bar.value > health_bar.value:
 		damage_bar.value -= 1
 		await get_tree().create_timer(0.05).timeout

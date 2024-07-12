@@ -1,45 +1,45 @@
-[gd_scene load_steps=18 format=3 uid="uid://yygou0kt3ots"]
+[gd_scene load_steps=18 format=3 uid="uid://d0i5l0kcn0dif"]
 
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_y47ob"]
-[ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_vddqb"]
-[ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="3_aivp1"]
-[ext_resource type="Texture2D" uid="uid://bsoaipbu8gyrd" path="res://assets/characters/enemy_dead_tilemap.png" id="4_nmwjv"]
-[ext_resource type="Texture2D" uid="uid://dua8if4xkcfcv" path="res://assets/characters/enemy2_idle and gun_tilemap.png" id="5_6kw8g"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_wapg0"]
+[ext_resource type="PackedScene" uid="uid://bqp860ss2wc6x" path="res://assets/bullet.tscn" id="2_wmijn"]
+[ext_resource type="PackedScene" uid="uid://caucqj0xidf51" path="res://assets/health_bar.tscn" id="3_cn76m"]
+[ext_resource type="Texture2D" uid="uid://bsoaipbu8gyrd" path="res://assets/characters/enemy_dead_tilemap.png" id="4_1eqwp"]
+[ext_resource type="Texture2D" uid="uid://dua8if4xkcfcv" path="res://assets/characters/enemy2_idle and gun_tilemap.png" id="5_gwykd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vsxo"]
-atlas = ExtResource("4_nmwjv")
+atlas = ExtResource("4_1eqwp")
 region = Rect2(0, 0, 42, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tah72"]
-atlas = ExtResource("4_nmwjv")
+atlas = ExtResource("4_1eqwp")
 region = Rect2(0, 32, 42, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnbsi"]
-atlas = ExtResource("4_nmwjv")
+atlas = ExtResource("4_1eqwp")
 region = Rect2(0, 64, 42, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tvevv"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4kqya"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_62bo5"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0v3o"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmr6g"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q3rc5"]
-atlas = ExtResource("5_6kw8g")
+atlas = ExtResource("5_gwykd")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1witx"]
@@ -91,22 +91,22 @@ animations = [{
 radius = 18.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_krtjo"]
-size = Vector2(423, 402)
+size = Vector2(284, 240)
 
-[node name="Enemy2" type="CharacterBody2D" groups=["Enemy"]]
+[node name="Heavy" type="CharacterBody2D" groups=["Enemy"]]
 z_index = 1
 collision_layer = 5
 collision_mask = 5
 motion_mode = 1
-script = ExtResource("1_y47ob")
-bullet_scene = ExtResource("2_vddqb")
+script = ExtResource("1_wapg0")
+bullet_scene = ExtResource("2_wmijn")
 speed = 50
 max_ammo = 50
 rate_of_fire = 0.4
 max_health = 30
-detection_range = 400.0
+detection_range = 600.0
 
-[node name="HealthBar" parent="." instance=ExtResource("3_aivp1")]
+[node name="HealthBar" parent="." instance=ExtResource("3_cn76m")]
 offset_left = -24.0
 offset_top = -36.0
 offset_right = 24.0
@@ -130,12 +130,13 @@ position = Vector2(-8.5, 0)
 shape = SubResource("CircleShape2D_o7fjd")
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_krtjo")
 debug_color = Color(0.984467, 0.0565883, 0.282835, 0.42)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+path_max_distance = 600.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

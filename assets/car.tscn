@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy7q4l81cb1av"]
+
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_hupei"]
+[ext_resource type="Texture2D" uid="uid://c607bh0eacosw" path="res://assets/car1.png" id="1_licso"]
+[ext_resource type="Texture2D" uid="uid://ck2ltk6i74qwa" path="res://assets/car2.png" id="3_m3rg1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cw2mm"]
+size = Vector2(150, 66)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_noesm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_licso")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_m3rg1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="Car" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_hupei")
+health = 3
+can_give_material = true
+material_number = 2
+color = Color(0.972549, 0.972549, 1, 1)
+type = "Car"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cw2mm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_noesm")
+autoplay = "default"

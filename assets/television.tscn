@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh6ybwilsuo0b"]
+
+[ext_resource type="Script" path="res://scripts/objects.gd" id="1_6mnxl"]
+[ext_resource type="Texture2D" uid="uid://vvubuoabj3qi" path="res://assets/tv.png" id="1_dfqsj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ksdac"]
+size = Vector2(40, 26)
+
+[node name="Television" type="StaticBody2D" groups=["One-Shot"]]
+collision_layer = 9
+script = ExtResource("1_6mnxl")
+color = Color(0.972549, 0.972549, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_ksdac")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("1_dfqsj")
