@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vfp85"]
 size = Vector2(23.9852, 26.0137)
 
-[node name="Bedside Table" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Bedside Table" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_3prg7")
 color = Color(0.545098, 0.270588, 0.0745098, 1)

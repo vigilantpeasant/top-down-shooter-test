@@ -264,7 +264,10 @@ _data = {
 "game_over": SubResource("Animation_rh2q3")
 }
 
-[node name="LevelStructure" type="Node2D"]
+[node name="LevelStructure" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("2_e3lye")
 script = ExtResource("1_qd2qe")
 
 [node name="GUI" type="CanvasLayer" parent="."]
@@ -276,7 +279,52 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1144.0
 offset_bottom = 648.0
-theme = ExtResource("2_e3lye")
+
+[node name="Panel" type="Panel" parent="GUI/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -124.0
+offset_top = 143.0
+offset_right = 132.0
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GameOver/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -61.0
+offset_right = 128.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TryAgain" type="Button" parent="GUI/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_koyr6")
+theme_override_font_sizes/font_size = 24
+text = "Retry"
+
+[node name="MainMenu" type="Button" parent="GUI/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_koyr6")
+theme_override_font_sizes/font_size = 24
+text = "Main Menu"
+
+[node name="Exit" type="Button" parent="GUI/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_koyr6")
+theme_override_font_sizes/font_size = 24
+text = "Exit"
 
 [node name="Label" type="Label" parent="GUI/GameOver"]
 layout_mode = 1
@@ -292,32 +340,6 @@ text = "YOU DIED"
 label_settings = SubResource("LabelSettings_xt7yy")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GameOver"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -124.0
-offset_top = 164.0
-offset_right = 132.0
-offset_bottom = 244.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TryAgain" type="Button" parent="GUI/GameOver/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_koyr6")
-theme_override_font_sizes/font_size = 24
-text = "Retry"
-
-[node name="MainMenu" type="Button" parent="GUI/GameOver/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_koyr6")
-theme_override_font_sizes/font_size = 24
-text = "Exit"
 
 [node name="HUD" type="Control" parent="GUI"]
 visible = false
@@ -717,5 +739,6 @@ libraries = {
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 modulate = Color(1, 1, 1, 0)
 
-[connection signal="button_down" from="GUI/GameOver/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
-[connection signal="button_down" from="GUI/GameOver/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
+[connection signal="button_down" from="GUI/GameOver/Panel/VBoxContainer/TryAgain" to="." method="_on_retry_button_down"]
+[connection signal="button_down" from="GUI/GameOver/Panel/VBoxContainer/MainMenu" to="." method="_on_main_menu_button_down"]
+[connection signal="pressed" from="GUI/GameOver/Panel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

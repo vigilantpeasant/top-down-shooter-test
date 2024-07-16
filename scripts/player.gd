@@ -10,13 +10,13 @@ class_name Player
 @onready var health_bar = LevelStructure.get_node("GUI/HUD/HealthBar") as TextureProgressBar
 @onready var health_label = LevelStructure.get_node("GUI/HUD/HealthBar/HealthLabel") as Label
 @onready var damage_bar = LevelStructure.get_node("GUI/HUD/HealthBar/DamageBar") as ProgressBar
-@onready var game_over = LevelStructure.get_node("GUI/GameOver")
-@onready var game_ui = LevelStructure.get_node("GUI/HUD")
 @onready var dash_effect = LevelStructure.get_node("GUI/HUD/DashPanel/DashEffect")
 @onready var grenade_bar = LevelStructure.get_node("GUI/HUD/GrenadePanel/GrenadeBar")
 @onready var melee_bar = LevelStructure.get_node("GUI/HUD/MeleePanel/MeleeBar")
-@onready var GUI_animation = LevelStructure.get_node("AnimationPlayer")
-@onready var gui = LevelStructure.get_node("GUI")
+var blood_scene = preload("res://assets/particle.tscn")
+var grenade_scene = preload("res://assets/grenade.tscn")
+var bullet_scene = preload("res://assets/bullet.tscn")
+var audio_player = preload("res://assets/audio.tscn")
 
 const SPEED = 250
 const DASH_SPEED = 650
@@ -50,18 +50,11 @@ var total_rifle_ammo = max_total_rifle_ammo
 var total_pistol_ammo = max_total_pistol_ammo
 var is_alive = true
 var is_moving = false
-var blood_scene = preload("res://assets/particle.tscn")
-var grenade_scene = preload("res://assets/grenade.tscn")
-var bullet_scene = preload("res://assets/bullet.tscn")
 
 func _ready():
-	gui.visible = true
-	game_over.visible = false
-	game_ui.visible = true
+	LevelStructure.on_start()
 	animated_sprite_2d.play("idle")
 	health_label.text = str(health) + " / " + str(max_health)
-	update_ammo_text()
-	
 	health_bar.max_value = max_health
 	health_bar.value = health
 	damage_bar.max_value = max_health
@@ -69,6 +62,9 @@ func _ready():
 	dash_effect.max_value = 100
 	dash_effect.value = 0
 	reload_bar.visible = false
+	
+	update_ammo_text()
+	reset_effects()
 	update_health_bar_texture()
 
 func _physics_process(delta):
@@ -119,6 +115,7 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("dash") and can_dash and is_moving:
 		dashing = true
+		Audio.play_sound("dash")
 		dash_timer = DASH_DURATION
 		dash_effect.value = 0
 		can_dash = false
@@ -128,6 +125,7 @@ func _process(_delta):
 		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo < MAX_RIFLE_AMMO and total_rifle_ammo > 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo < MAX_PISTOL_AMMO and total_pistol_ammo > 0):
 			is_reloading = true
 			can_shoot = false
+			Audio.play_sound("plasma_reload")
 			reload_bar.visible = true
 			reload_bar.value = 0
 			ammo.text = "Reload"
@@ -137,6 +135,7 @@ func _process(_delta):
 		if (GameState.selected_weapon == "plasma rifle" and current_rifle_ammo == 0 and total_rifle_ammo > 0) or (GameState.selected_weapon == "plasma pistol" and current_pistol_ammo == 0 and total_pistol_ammo > 0):
 			is_reloading = true
 			can_shoot = false
+			Audio.play_sound("plasma_reload")
 			reload_bar.visible = true
 			reload_bar.value = 0
 			ammo.text = "Reload"
@@ -149,7 +148,17 @@ func _process(_delta):
 		elif GameState.selected_weapon == "plasma pistol":
 			animated_sprite_2d.frame = 1
 
+func reset_effects():
+	melee_bar.value = 0
+	dash_effect.value = 0
+	grenade_bar.value = 0
+
 func _on_melee_attack_body_entered(body):
+	if body.is_in_group("Wood"):
+		Audio.play_sound("box_break")
+	elif body.is_in_group("Metal"):
+		Audio.play_sound("metal_break")
+	
 	if body.has_method("take_damage"):
 		body.take_damage(7, 20, global_position)
 
@@ -161,6 +170,7 @@ func melee_attack():
 	$MeleeAttack/CollisionShape2D.disabled = false
 	$MeleeAttack/Slash.visible = true
 	animated_sprite_2d.play("melee")
+	Audio.play_sound("slash")
 	await get_tree().create_timer(0.1).timeout
 	$MeleeAttack/CollisionShape2D.disabled = true
 	$MeleeAttack/Slash.visible = false
@@ -248,8 +258,10 @@ func shoot():
 	var rate_of_fire
 	if GameState.selected_weapon == "plasma rifle":
 		rate_of_fire = RATE_OF_FIRE_RIFLE
+		Audio.play_sound("plasma_rifle_shoot")
 	elif GameState.selected_weapon == "plasma pistol":
 		rate_of_fire = RATE_OF_FIRE_PISTOL
+		Audio.play_sound("plasma_pistol_shoot")
 	
 	await get_tree().create_timer(rate_of_fire).timeout
 	can_shoot = true
@@ -304,9 +316,7 @@ func take_damage(min_damage : int, max_damage : int, hit_position : Vector2):
 			damage_bar.value = 0
 		is_alive = false
 		animated_sprite_2d.play("dead")
-		game_over.visible = true
-		GUI_animation.play("game_over")
-		game_ui.visible = false
+		LevelStructure.on_death()
 	
 	await get_tree().create_timer(0.4).timeout
 	blood.queue_free()

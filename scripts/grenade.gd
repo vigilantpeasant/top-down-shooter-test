@@ -38,6 +38,7 @@ func create_explosion():
 	explosion.global_position = global_position
 	get_parent().add_child(explosion)
 	$Area2D/GPUParticles2D.emitting = true
+	Audio.play_sound("explosion")
 
 	await get_tree().create_timer(0.2).timeout
 	create_tween().tween_property($Area2D, "modulate", Color.TRANSPARENT, 0.5)

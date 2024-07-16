@@ -50,6 +50,7 @@ theme = ExtResource("1_yaudd")
 script = ExtResource("1_25erc")
 
 [node name="GameName" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -140,15 +141,23 @@ text = "Back"
 [node name="ItemList" type="ItemList" parent="Stage Select"]
 layout_mode = 0
 offset_left = 448.0
-offset_top = 510.0
+offset_top = 365.0
 offset_right = 704.0
 offset_bottom = 590.0
-allow_rmb_select = true
-item_count = 2
+item_count = 6
 fixed_column_width = 240
 icon_mode = 0
 item_0/text = "Tutorial"
 item_1/text = "Level1"
+item_1/disabled = true
+item_2/text = "Level2"
+item_2/disabled = true
+item_3/text = "Level3"
+item_3/disabled = true
+item_4/text = "Level4"
+item_4/disabled = true
+item_5/text = "Level5"
+item_5/disabled = true
 
 [node name="Settings Menu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -217,17 +226,12 @@ columns = 2
 layout_mode = 2
 tooltip_text = "Changes the volume of the sound effects"
 mouse_filter = 1
-text = "SFX:        "
+text = "Sound Effects:        "
 label_settings = SubResource("LabelSettings_tsoqf")
 
-[node name="HSlider" type="HSlider" parent="Settings Menu/Panel/VBoxContainer/GridContainer"]
-custom_minimum_size = Vector2(300, 0)
+[node name="CheckButton" type="CheckButton" parent="Settings Menu/Panel/VBoxContainer/GridContainer"]
 layout_mode = 2
-size_flags_vertical = 1
-max_value = 10.0
-value = 10.0
-tick_count = 10
-ticks_on_borders = true
+button_pressed = true
 
 [node name="Seperator" type="Control" parent="Settings Menu/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -335,6 +339,7 @@ label_settings = SubResource("LabelSettings_uglcn")
 [connection signal="pressed" from="Stage Select/Back" to="." method="_on_back_pressed"]
 [connection signal="item_clicked" from="Stage Select/ItemList" to="." method="_on_item_list_item_clicked"]
 [connection signal="pressed" from="Settings Menu/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer/CheckButton" to="." method="_on_sfx_mute_pressed"]
 [connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer2/CheckButton" to="." method="_on_autoreload_button_pressed"]
 [connection signal="item_selected" from="Settings Menu/Panel/VBoxContainer/GridContainer2/OptionButton" to="." method="_on_in_overlay_item_selected"]
 [connection signal="pressed" from="Settings Menu/Panel/VBoxContainer/GridContainer3/CheckButton" to="." method="_on_fullscreen_pressed"]

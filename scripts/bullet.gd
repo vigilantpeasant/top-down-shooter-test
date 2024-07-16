@@ -20,6 +20,11 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	queue_free()
+	if body.is_in_group("Wood"):
+		Audio.play_sound("box_break")
+	elif body.is_in_group("Metal"):
+		Audio.play_sound("metal_break")
+	
 	if body.has_method("take_damage"):
 		if body.is_in_group("Player"):
 			body.take_damage(3, 10, global_position)

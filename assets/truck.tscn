@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/objects.gd" id="1_en1ht"]
 [ext_resource type="Texture2D" uid="uid://dyqgct8vf8arn" path="res://assets/truck.png" id="1_i8vy7"]
 
-[node name="Truck" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Truck" type="StaticBody2D" groups=["Metal", "One-Shot"]]
 collision_layer = 9
 script = ExtResource("1_en1ht")
 health = 3

@@ -6,7 +6,6 @@
 load_path = "res://.godot/imported/explosion.png-3d70b655f829d2ec362997bd3be8e3ae.ctex"
 
 [node name="Explosion Particle" type="GPUParticles2D"]
-z_index = -1
 emitting = false
 amount = 80
 process_material = ExtResource("1_yp7f2")

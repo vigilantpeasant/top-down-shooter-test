@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_po6o7"]
 size = Vector2(20, 30)
 
-[node name="Chair" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Chair" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_wocq8")
 color = Color(0.545098, 0.270588, 0.0745098, 1)

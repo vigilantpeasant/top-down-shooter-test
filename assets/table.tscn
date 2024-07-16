@@ -6,10 +6,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i0bxt"]
 size = Vector2(52, 26)
 
-[node name="Table" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Table" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_hu36i")
 health = 2
+can_give_material = true
+material_number = 1
 color = Color(0.545098, 0.270588, 0.0745098, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

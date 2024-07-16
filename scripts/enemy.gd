@@ -23,7 +23,8 @@ var player: Node2D
 var current_ammo = max_ammo
 var can_shoot = true
 var is_alive = true
-var blood_scene = preload("res://assets/particle.tscn")
+var hit_scene = preload("res://assets/blood_splash.tscn")
+var death_blood = preload("res://assets/blood_particle.tscn")
 
 func _ready():
 	health_bar.max_value = max_health
@@ -40,8 +41,9 @@ func _ready():
 func take_damage(min_damage: int, max_damage: int, hit_position : Vector2):
 	health_bar.visible = true
 	damage_bar.visible = true
+	Audio.play_sound("bullet_hit")
 	
-	var blood = blood_scene.instantiate() as GPUParticles2D
+	var blood = hit_scene.instantiate() as GPUParticles2D
 	blood.modulate = Color(0.698039, 0.133333, 0.133333, 1)
 	get_parent().add_child(blood)
 	var direction = (global_position - hit_position).normalized()
@@ -53,6 +55,11 @@ func take_damage(min_damage: int, max_damage: int, hit_position : Vector2):
 	health_bar.value = health
 	get_tree().create_timer(0.5).timeout.connect(update_damage_bar)
 	if health <= 0:
+		var death_blood_particle = death_blood.instantiate() as GPUParticles2D
+		get_parent().add_child(death_blood_particle)
+		death_blood_particle.global_position = global_position
+		death_blood_particle.emitting = true
+		
 		is_alive = false
 		animated_sprite_2d.play("dead")
 		z_index = 0
@@ -67,7 +74,7 @@ func take_damage(min_damage: int, max_damage: int, hit_position : Vector2):
 		alert_nearby_enemies()
 		see_player()
 	
-	await get_tree().create_timer(0.4).timeout
+	await get_tree().create_timer(10).timeout
 	blood.queue_free()
 
 func alert_nearby_enemies():
@@ -111,16 +118,24 @@ func _process(_delta):
 		if distance_to_player <= detection_range and is_alive:
 			ray_cast_2d.look_at(player.global_position)
 			animated_sprite_2d.look_at(player.global_position)
-			if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() is Player:
+			if ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() is Player or ray_cast_2d.get_collider() is Objects:
 				if can_shoot:
+					move_to_player()
 					shoot()
 					ray_cast_2d.get_collider()
+			elif ray_cast_2d.is_colliding() and ray_cast_2d.get_collider() is Enemy:
+				follow_player()
 			else:
 				follow_player()
 		else:
 			follow_player()
 	else:
 		player = null
+
+func move_to_player():
+	velocity = navigation_agent.get_next_path_position() - global_position
+	velocity = velocity.normalized() * speed
+	move_and_slide()
 
 func follow_player():
 	if player != null and is_alive:
@@ -139,6 +154,7 @@ func shoot():
 		return
 	
 	if player.is_alive:
+		Audio.play_sound("enemy_shoot")
 		can_shoot = false
 		current_ammo -= 1
 		var miss = randf() < miss_chance
@@ -155,6 +171,7 @@ func shoot():
 		can_shoot = true
 
 func reload():
+	Audio.play_sound("enemy_reload")
 	can_shoot = false
 	await get_tree().create_timer(1.5).timeout
 	current_ammo = max_ammo

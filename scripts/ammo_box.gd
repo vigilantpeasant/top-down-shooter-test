@@ -4,6 +4,7 @@ extends Area2D
 
 func _on_body_entered(_body):
 	player = find_player_node(get_tree().get_root())
+	Audio.play_sound("pickup_ammo")
 	match type:
 		0:
 			player.total_pistol_ammo += player.max_total_pistol_ammo

@@ -6,7 +6,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_kipx6"]
 radius = 16.0312
 
-[node name="Camera" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Camera" type="StaticBody2D" groups=["Metal", "One-Shot"]]
+collision_layer = 9
 collision_mask = 0
 script = ExtResource("1_ul7rb")
 color = Color(0.972549, 0.972549, 1, 1)

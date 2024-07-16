@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://0buws828imyc" path="res://assets/ufo.png" id="1_h0iaj"]
 
-[node name="Ufo" type="StaticBody2D"]
+[node name="Ufo" type="StaticBody2D" groups=["Metal"]]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-73, 7, -34, -26, 43, -23, 76, 12, 71, 36, 13, 44, -65, 34)

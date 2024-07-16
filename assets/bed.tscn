@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ybfto"]
 size = Vector2(42, 82)
 
-[node name="Bed" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Bed" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_03lcb")
 health = 2

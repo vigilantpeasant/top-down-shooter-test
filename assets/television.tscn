@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ksdac"]
 size = Vector2(40, 26)
 
-[node name="Television" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Television" type="StaticBody2D" groups=["Metal", "One-Shot"]]
 collision_layer = 9
 script = ExtResource("1_6mnxl")
 color = Color(0.972549, 0.972549, 1, 1)

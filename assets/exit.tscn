@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://gb1raut2lulf"]
+
+[ext_resource type="Texture2D" uid="uid://k7j4nqqom1ol" path="res://assets/mountain door.png" id="1_an236"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ojxgr"]
+size = Vector2(286, 133)
+
+[node name="Exit" type="StaticBody2D"]
+position = Vector2(-5, 52)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1, 1.04167)
+texture = ExtResource("1_an236")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_ojxgr")

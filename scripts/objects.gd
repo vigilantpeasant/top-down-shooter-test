@@ -8,6 +8,7 @@ class_name Objects
 @export var color : Color
 @export var type : String
 var random_skin: int
+var explosion_scene = preload("res://assets/explosion_particle.tscn")
 var blood_scene = preload("res://assets/particle.tscn")
 var material_scene = preload("res://assets/material.tscn")
 
@@ -18,11 +19,8 @@ func _ready():
 		game_state = GameState
 	
 	if type:
-		random_skin = randi_range(0, 2)
+		random_skin = randi_range(0, 1)
 		$AnimatedSprite2D.frame = random_skin
-		if type == "Storage_Tank":
-			if random_skin == 1:
-				$CollisionShape2D.shape.size = Vector2(192, 329)
 
 func take_damage(_min_damage : int, _max_damage : int, hit_position : Vector2):
 	health -= 1

@@ -1,11 +1,15 @@
 extends CanvasLayer
 
-var blood_particle = preload("res://assets/particle.tres")
+var hit_particle = preload("res://assets/particle.tres")
 var explosion_particle = preload("res://assets/explosion_particle.tres")
+var blood_particle = preload("res://assets/blood_particle.tres")
+var blood_splash = preload("res://assets/blood_splash.tres")
 
 var materials = [
-	blood_particle,
+	hit_particle,
 	explosion_particle,
+	blood_particle,
+	blood_splash,
 ]
 
 var frames = 0

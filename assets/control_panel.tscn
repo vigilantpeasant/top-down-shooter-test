@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p6o2f"]
 size = Vector2(34, 60)
 
-[node name="ControlPanel" type="StaticBody2D" groups=["One-Shot"]]
+[node name="ControlPanel" type="StaticBody2D" groups=["Metal", "One-Shot"]]
 collision_layer = 9
 script = ExtResource("1_nuoec")
 health = 2

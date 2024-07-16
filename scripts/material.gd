@@ -14,6 +14,7 @@ func _ready():
 	material_label.text = str(game_state.material_count)
 
 func _on_body_entered(_body):
+	Audio.play_sound("pickup_material")
 	create_tween().tween_property(self, "scale", Vector2(1.35, 1.35), 0.2)
 	game_state.material_count += 1
 	material_label.text = str(game_state.material_count)

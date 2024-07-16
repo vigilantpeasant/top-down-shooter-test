@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e6h5b"]
 size = Vector2(81, 54)
 
-[node name="Workbench" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Workbench" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_cdra4")
 health = 2

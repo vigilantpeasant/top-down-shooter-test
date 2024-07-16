@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k4sy0"]
 size = Vector2(28, 32)
 
-[node name="Box" type="StaticBody2D" groups=["One-Shot"]]
+[node name="Box" type="StaticBody2D" groups=["One-Shot", "Wood"]]
 collision_layer = 9
 script = ExtResource("1_q1eiu")
 can_give_material = true
